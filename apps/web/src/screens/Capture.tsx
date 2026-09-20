@@ -10,6 +10,7 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
   const [issues, setIssues] = useState<ParseIssue[]>([]);
   const [secretWarnings, setSecretWarnings] = useState<string[]>([]);
   const [importMessage, setImportMessage] = useState<string | null>(null);
+  const [typingInField, setTypingInField] = useState(false);
   const tapeRef = useRef<HTMLDivElement>(null);
 
   const labels = profile?.labels ?? [];
@@ -42,6 +43,24 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
   useEffect(() => {
     if (tapeRef.current) tapeRef.current.scrollTop = tapeRef.current.scrollHeight;
   }, [observations.length]);
+
+  // Keyboard capture stops while a text field has focus, which is correct but
+  // invisible: someone who clicked into the paste box and kept typing would
+  // watch the counter stay at zero with no explanation. The state is tracked
+  // so the interface can say which mode it is in.
+  useEffect(() => {
+    const check = (): void => {
+      const active = document.activeElement;
+      setTypingInField(!!active && /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName));
+    };
+    check();
+    document.addEventListener("focusin", check);
+    document.addEventListener("focusout", check);
+    return () => {
+      document.removeEventListener("focusin", check);
+      document.removeEventListener("focusout", check);
+    };
+  }, []);
 
   if (!profile) {
     return (
@@ -128,6 +147,28 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
           <div>
             <div className="counter">{observations.length}</div>
             <div className="field__hint">observations recorded</div>
+
+            {/* Both states occupy the same box, and the button keeps its space
+                when hidden. An earlier version rendered the button only while
+                paused, so restoring focus changed the height of this block and
+                moved every control below it mid-click. */}
+            <div className={`capture-state${typingInField ? " capture-state--paused" : ""}`}>
+              <span>
+                {typingInField
+                  ? "Key capture paused while you are typing in a field."
+                  : `Key capture is on. Press ${labels.join(", ")} to record, backspace to undo.`}
+              </span>
+              <button
+                type="button"
+                className="button button--small"
+                style={typingInField ? undefined : { visibility: "hidden" }}
+                tabIndex={typingInField ? undefined : -1}
+                aria-hidden={typingInField ? undefined : true}
+                onClick={() => (document.activeElement as HTMLElement | null)?.blur()}
+              >
+                Resume key capture
+              </button>
+            </div>
             <div className="button-row" style={{ marginTop: 16 }}>
               <button
                 type="button"

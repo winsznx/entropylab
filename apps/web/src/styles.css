@@ -212,6 +212,27 @@ a {
   flex: 1;
 }
 
+@media (max-width: 560px) {
+  /* The masthead took three lines on a phone, pushing the result below the
+     fold. Tighter spacing and a smaller status line bring it back to two. */
+  .masthead {
+    gap: calc(var(--step) * 2);
+    padding: calc(var(--step) * 3) 16px;
+  }
+  .masthead nav {
+    gap: calc(var(--step) * 1);
+  }
+  .masthead__status {
+    font-size: 0.66rem;
+  }
+  .scale__head {
+    flex-wrap: wrap;
+  }
+  .sheet {
+    padding: calc(var(--step) * 4);
+  }
+}
+
 .foot {
   border-top: 1px solid var(--rule);
   padding: calc(var(--step) * 5) 16px;
@@ -434,6 +455,10 @@ textarea {
   margin-left: calc(var(--step) * 2);
   font-family: var(--sans);
   letter-spacing: 0;
+  /* Kept on one line: "bits per" above "observation" reads as two separate
+     labels on a narrow screen. */
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .scale__limit {
@@ -719,6 +744,27 @@ textarea {
 .keypad__key:active {
   background: var(--ink);
   color: var(--sheet);
+}
+
+/* Says whether typed keys are being recorded. Without it, focus sitting in a
+   text field looks identical to the application ignoring the keyboard. */
+.capture-state {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--step) * 3);
+  flex-wrap: wrap;
+  margin-top: calc(var(--step) * 4);
+  padding: calc(var(--step) * 2) calc(var(--step) * 3);
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  background: var(--sheet-sunk);
+  border: 1px solid var(--rule-soft);
+}
+.capture-state--paused {
+  background: var(--alert-soft);
+  color: var(--alert);
+  border-color: transparent;
 }
 
 .tape {

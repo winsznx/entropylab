@@ -373,3 +373,29 @@ test.describe("privacy audit", () => {
     }
   });
 });
+
+test.describe("keyboard capture state", () => {
+  test("says when key capture is paused and resumes it", async ({ page }) => {
+    // Found by walking the product: clicking mid-page lands in the paste box,
+    // after which typed digits go into that field and the counter never moves.
+    // The behaviour is correct; being silent about it was not.
+    await page.goto("/#/define");
+    await page.getByLabel("Name").fill("Capture state");
+    await page.getByRole("button", { name: "Continue to calibration" }).click();
+
+    await expect(page.getByText(/Key capture is on/)).toBeVisible();
+
+    await page.getByLabel("Paste recorded outcomes").click();
+    await expect(page.getByText(/Key capture paused/)).toBeVisible();
+
+    // Typing here must not be recorded, and the interface must say so.
+    await page.keyboard.press("3");
+    await expect(page.locator(".counter")).toHaveText("0");
+
+    await page.getByRole("button", { name: "Resume key capture" }).click();
+    await expect(page.getByText(/Key capture is on/)).toBeVisible();
+
+    await page.keyboard.press("3");
+    await expect(page.locator(".counter")).toHaveText("1");
+  });
+});
