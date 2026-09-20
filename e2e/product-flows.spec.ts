@@ -280,3 +280,96 @@ test.describe("accessibility basics", () => {
     await expect(page.locator(".tag--governing").first()).toHaveText("governing");
   });
 });
+
+test.describe("privacy audit", () => {
+  test("a private session leaves no IndexedDB record", async ({ page }) => {
+    // Stronger than checking the profiles list: this reads the database
+    // directly, so a write that never surfaced in the interface would still
+    // be caught.
+    await page.goto("/#/profiles");
+    await page.getByLabel(/Do not save anything this visit/).check();
+
+    await page.goto("/#/define");
+    await page.getByLabel("Name").fill("Private run");
+    await page.getByRole("button", { name: "Continue to calibration" }).click();
+    await page.getByLabel("Paste recorded outcomes").fill("1 2 3 4 5 6 1 2 3 4 5 6");
+    await page.getByRole("button", { name: "Read pasted text" }).click();
+    await page.getByRole("button", { name: /^Analyze \d+ observations$/ }).click();
+    await page.getByRole("button", { name: "Export report" }).click();
+
+    const stored = await page.evaluate(async () => {
+      const open = indexedDB.open("entropylab", 1);
+      const db = await new Promise<IDBDatabase>((resolve, reject) => {
+        open.onsuccess = () => resolve(open.result);
+        open.onerror = () => reject(open.error);
+      });
+      const read = (store: string): Promise<unknown[]> =>
+        new Promise((resolve) => {
+          const request = db.transaction(store, "readonly").objectStore(store).getAll();
+          request.onsuccess = () => resolve(request.result as unknown[]);
+        });
+      return { profiles: await read("profiles"), sessions: await read("sessions") };
+    });
+
+    expect(stored.profiles).toHaveLength(0);
+    expect(stored.sessions).toHaveLength(0);
+  });
+
+  test("no observation reaches the URL", async ({ page }) => {
+    // The address bar is copied, bookmarked, and logged by browsers. Routing
+    // carries a screen name and nothing else.
+    await page.goto("/#/define");
+    await page.getByLabel("Name").fill("URL check");
+    await page.getByRole("button", { name: "Continue to calibration" }).click();
+
+    await page.locator("body").click();
+    for (const key of "561324") await page.keyboard.press(key);
+    await page.getByRole("button", { name: /^Analyze \d+ observations$/ }).click();
+    await expect(page.getByRole("heading", { name: "Analysis", level: 1 })).toBeVisible();
+
+    expect(page.url()).toBe("http://localhost:4173/#/analysis");
+    expect(page.url()).not.toMatch(/561324|observations=|data=/);
+  });
+
+  test("downloads happen only when the user asks", async ({ page }) => {
+    let downloads = 0;
+    page.on("download", () => {
+      downloads += 1;
+    });
+
+    await openDemo(page, "Fair-like d6");
+    await page.getByRole("button", { name: "Export report" }).click();
+    await expect(page.getByRole("heading", { name: "Export", level: 1 })).toBeVisible();
+    // Reaching the export screen must not write a file by itself.
+    expect(downloads).toBe(0);
+
+    await Promise.all([
+      page.waitForEvent("download"),
+      page.getByRole("button", { name: "Download Markdown" }).click(),
+    ]);
+    expect(downloads).toBe(1);
+  });
+
+  test("asks for no secret material anywhere in the interface", async ({ page }) => {
+    for (const route of ["home", "define", "capture", "analysis", "export", "profiles", "about"]) {
+      await page.goto(`/#/${route}`);
+      const body = (await page.locator("body").textContent()) ?? "";
+      // The words may appear in warnings telling the user not to enter them;
+      // what must never appear is an input asking for them.
+      const fields = await page
+        .locator("input, textarea")
+        .evaluateAll((nodes) =>
+          nodes.map(
+            (n) =>
+              `${n.getAttribute("placeholder") ?? ""} ${n.getAttribute("aria-label") ?? ""} ${n.id}`,
+          ),
+        );
+      for (const field of fields) {
+        expect(field.toLowerCase(), `${route}: ${field}`).not.toMatch(
+          /mnemonic|seed phrase|private key|xprv|passphrase/,
+        );
+      }
+      void body;
+    }
+  });
+});
