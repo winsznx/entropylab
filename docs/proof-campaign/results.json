@@ -1,0 +1,80 @@
+{
+  "algorithmVersion": "0.1.0",
+  "results": [
+    {
+      "fixture": "FAIR_LIKE",
+      "defect": "None. Seeded pseudo-random control.",
+      "sampleCount": 6000,
+      "idealBitsPerSymbol": 2.584962500721156,
+      "estimators": {
+        "most-common-value": 2.398261671027289,
+        "collision": 2.584962500721156,
+        "markov": 2.21541218231328,
+        "lag-predictor": 2.4620141356221845
+      },
+      "conservativeBitsPerSymbol": 2.21541218231328,
+      "limitingEstimator": "markov",
+      "inputHash": "8655b098f72ede256257a820bdd38d0b46f3c948f54fd7a91014dd74207b6615"
+    },
+    {
+      "fixture": "BIASED",
+      "defect": "Symbol 0 occurs roughly three times as often as each other face.",
+      "sampleCount": 6000,
+      "idealBitsPerSymbol": 2.584962500721156,
+      "estimators": {
+        "most-common-value": 1.4055369600164038,
+        "collision": 1.5130375433200305,
+        "markov": 1.3747219885529556,
+        "lag-predictor": 2.1732842827783916
+      },
+      "conservativeBitsPerSymbol": 1.3747219885529556,
+      "limitingEstimator": "markov",
+      "inputHash": "b5d11c562a0e9209bec7422b23bc9d07fd2a1412c6c9e2de978863e5d20760ff"
+    },
+    {
+      "fixture": "PERIODIC_BALANCED",
+      "defect": "Exactly uniform histogram, fully deterministic order.",
+      "sampleCount": 6000,
+      "idealBitsPerSymbol": 2.584962500721156,
+      "estimators": {
+        "most-common-value": 2.4814796531622965,
+        "collision": 2.584962500721156,
+        "markov": 0.01938655979033044,
+        "lag-predictor": 0
+      },
+      "conservativeBitsPerSymbol": 0,
+      "limitingEstimator": "lag-predictor",
+      "inputHash": "6d4320e059e0ce9b8043f9982b4453f01cf67837a2d1779d0bed4db89aae88f0"
+    },
+    {
+      "fixture": "STICKY_MARKOV",
+      "defect": "Previous symbol repeats with probability 0.6.",
+      "sampleCount": 6000,
+      "idealBitsPerSymbol": 2.584962500721156,
+      "estimators": {
+        "most-common-value": 2.42324413505131,
+        "collision": 2.584962500721156,
+        "markov": 0.4764592176478509,
+        "lag-predictor": 0.553285010637393
+      },
+      "conservativeBitsPerSymbol": 0.4764592176478509,
+      "limitingEstimator": "markov",
+      "inputHash": "e7556dc585547ebf969b0c709d04df8a0e32373a16eeb0bc70bbd7193745ec06"
+    },
+    {
+      "fixture": "LOW_SAMPLE",
+      "defect": "None in the process. Only 40 observations.",
+      "sampleCount": 40,
+      "idealBitsPerSymbol": 2.584962500721156,
+      "estimators": {
+        "most-common-value": 1.2222907665630778,
+        "collision": 1.5537903026084114,
+        "markov": null,
+        "lag-predictor": null
+      },
+      "conservativeBitsPerSymbol": 1.2222907665630778,
+      "limitingEstimator": "most-common-value",
+      "inputHash": "887ecac0eb4ae5f5f1f6909f56c2bdbc4555867d77f67654f5cfec72497b5511"
+    }
+  ]
+}

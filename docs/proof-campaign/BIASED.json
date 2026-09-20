@@ -1,0 +1,198 @@
+{
+  "reportFormatVersion": "1.0.0",
+  "algorithmVersion": "0.1.0",
+  "process": {
+    "name": "Biased d6",
+    "sourceType": "d6",
+    "alphabetSize": 6,
+    "collectionMethod": "synthetic fixture BIASED",
+    "notes": "Symbol 0 occurs roughly three times as often as each other face."
+  },
+  "dataset": {
+    "source": "BIASED",
+    "sampleCount": 6000,
+    "alphabetSize": 6,
+    "inputHash": "b5d11c562a0e9209bec7422b23bc9d07fd2a1412c6c9e2de978863e5d20760ff"
+  },
+  "analysis": {
+    "version": "0.1.0",
+    "sampleCount": 6000,
+    "alphabetSize": 6,
+    "idealBitsPerSymbol": 2.584962500721156,
+    "estimators": [
+      {
+        "id": "most-common-value",
+        "label": "Most common value",
+        "applicable": true,
+        "bitsPerSymbol": 1.4055369600164038,
+        "quality": "usable",
+        "warnings": [],
+        "diagnostics": {
+          "sampleCount": 6000,
+          "counts": [2169, 734, 751, 813, 787, 746],
+          "modeSymbol": 0,
+          "modeCount": 2169,
+          "pHat": 0.3615,
+          "pUpper": 0.37747762596811524
+        }
+      },
+      {
+        "id": "collision",
+        "label": "Collision",
+        "applicable": true,
+        "bitsPerSymbol": 1.5130375433200305,
+        "quality": "usable",
+        "warnings": [
+          "This estimate is computed over a 3-bit encoding of a 6-symbol alphabet. Because 6 is not a power of two, unreachable codewords bias the bitstring (observed one-rate 0.2994) independently of the source. The figure describes the source and this encoding together, not the source alone."
+        ],
+        "diagnostics": {
+          "track": "bitstring",
+          "bitCount": 18000,
+          "runs": 7405,
+          "meanRunLength": 2.4307900067521944,
+          "stdDev": 0.4952202494002637,
+          "meanLowerBound": 2.415966432173333,
+          "clampedMeanBound": 2.415966432173333,
+          "pCollision": 0.7049799597846906,
+          "bitsPerEncodedBit": 0.5043458477733435,
+          "scaledBeforeCeiling": 1.5130375433200305,
+          "alphabetCeiling": 2.584962500721156,
+          "saturated": false,
+          "encodingWidth": 3,
+          "encodingOneRate": 0.29944444444444446,
+          "usedUpperFallback": false
+        }
+      },
+      {
+        "id": "markov",
+        "label": "Markov",
+        "applicable": true,
+        "bitsPerSymbol": 1.3747219885529556,
+        "quality": "usable",
+        "warnings": [
+          "Computed over a 6-symbol alphabet. SP 800-90B section 6.3.3 defines the Markov estimate for binary inputs only; this is a documented generalisation following the structure of the 2016 second draft, not the final method."
+        ],
+        "diagnostics": {
+          "mode": "generalised-alphabet",
+          "sampleCount": 6000,
+          "chainLength": 128,
+          "transitionCounts": [
+            [779, 261, 269, 310, 268, 282],
+            [298, 78, 87, 84, 91, 96],
+            [277, 95, 94, 101, 96, 88],
+            [279, 103, 102, 115, 115, 99],
+            [285, 110, 94, 97, 105, 96],
+            [250, 87, 105, 106, 112, 85]
+          ],
+          "transitionUpper": [
+            [
+              0.3856918721896797, 0.13833049227625463, 0.14225423876565207, 0.1622849263979637,
+              0.14176406199946698, 0.1486192047601223
+            ],
+            [
+              0.4527164410992185, 0.13558731942470856, 0.14928113668260332, 0.14472905125072633,
+              0.1553323648658398, 0.16286875986257893
+            ],
+            [
+              0.41422270183184917, 0.15776313226000307, 0.15629028104321846, 0.16657691861115895,
+              0.15923484836674234, 0.14742843681544404
+            ],
+            [
+              0.3860896306446892, 0.15675869674060677, 0.15540343383888416, 0.172952473277839,
+              0.172952473277839, 0.15133195232889152
+            ],
+            [
+              0.4062922786922192, 0.17162952126222358, 0.14923716547173044, 0.15345526115897298,
+              0.16465853852476353, 0.15205029212778798
+            ],
+            [
+              0.3801614421681571, 0.14710674281852198, 0.17379894786790256, 0.17527152864761064,
+              0.18408645859529857, 0.14411707610835203
+            ]
+          ],
+          "rowTotals": [2169, 734, 751, 813, 787, 745],
+          "sparseRows": 0,
+          "logMaxChainProbability": -175.9644145347783,
+          "alphabetCeiling": 2.584962500721156
+        }
+      },
+      {
+        "id": "lag-predictor",
+        "label": "Lag predictor",
+        "applicable": true,
+        "bitsPerSymbol": 2.1732842827783916,
+        "quality": "usable",
+        "warnings": [],
+        "diagnostics": {
+          "sampleCount": 6000,
+          "lagWindow": 128,
+          "attempts": 5999,
+          "correct": 1249,
+          "longestRun": 4,
+          "winningLag": 30,
+          "topLags": [
+            {
+              "lag": 30,
+              "score": 1335,
+              "rate": 0.22253708951491916
+            },
+            {
+              "lag": 20,
+              "score": 1329,
+              "rate": 0.22153692282047008
+            },
+            {
+              "lag": 6,
+              "score": 1326,
+              "rate": 0.22103683947324554
+            },
+            {
+              "lag": 53,
+              "score": 1324,
+              "rate": 0.22070345057509586
+            },
+            {
+              "lag": 13,
+              "score": 1322,
+              "rate": 0.22037006167694614
+            }
+          ],
+          "pGlobal": 0.2082013668944824,
+          "pGlobalUpper": 0.22170538498032566,
+          "pLocal": 0.0710024701279508,
+          "governedBy": "global"
+        }
+      }
+    ],
+    "limitingEstimator": "markov",
+    "conservativeBitsPerSymbol": 1.3747219885529556,
+    "targetGuidance": [
+      {
+        "targetBits": 128,
+        "estimatedSamplesRequired": 94
+      },
+      {
+        "targetBits": 256,
+        "estimatedSamplesRequired": 187
+      }
+    ],
+    "warnings": [
+      "The estimators disagree by 0.80 bits per symbol. Disagreement is expected when one method detects structure the others cannot see, and the lowest figure governs."
+    ]
+  },
+  "assumptions": [
+    "The observations were produced by the same physical process the report describes.",
+    "Observations are recorded in the order they occurred. Every sequential estimator depends on this.",
+    "The alphabet is fixed and every outcome was recorded, including repeats and results the operator disliked.",
+    "The calibration sample is representative of how the process will behave during the ceremony it is meant to inform."
+  ],
+  "limitations": [
+    "Statistical testing cannot establish that a source is random. It can only find structure, and finding none is not proof that none exists.",
+    "These four estimators do not exhaust the ways a physical process can be predictable. A source can pass all of them and still be predictable by a method not implemented here.",
+    "The result describes the observed sample. It does not guarantee how the process will behave later, and human-operated processes drift.",
+    "Small samples produce unstable estimates. Where an estimator reports instability, the figure can move substantially with more data.",
+    "A figure at the alphabet ceiling means no structure was found, not that the source was shown to be strong.",
+    "This is not a NIST SP 800-90B validation and confers no certification. Estimators derived from that document are noted individually, including where this implementation diverges from it.",
+    "Entropy quality is one part of seed security. It does not address the wallet, the derivation, the operating system, or physical observation of the ceremony."
+  ]
+}

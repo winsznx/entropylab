@@ -1,0 +1,131 @@
+{
+  "reportFormatVersion": "1.0.0",
+  "algorithmVersion": "0.1.0",
+  "process": {
+    "name": "Low-sample d6",
+    "sourceType": "d6",
+    "alphabetSize": 6,
+    "collectionMethod": "synthetic fixture LOW_SAMPLE",
+    "notes": "None in the process. Only 40 observations."
+  },
+  "dataset": {
+    "source": "LOW_SAMPLE",
+    "sampleCount": 40,
+    "alphabetSize": 6,
+    "inputHash": "887ecac0eb4ae5f5f1f6909f56c2bdbc4555867d77f67654f5cfec72497b5511"
+  },
+  "analysis": {
+    "version": "0.1.0",
+    "sampleCount": 40,
+    "alphabetSize": 6,
+    "idealBitsPerSymbol": 2.584962500721156,
+    "estimators": [
+      {
+        "id": "most-common-value",
+        "label": "Most common value",
+        "applicable": true,
+        "bitsPerSymbol": 1.2222907665630778,
+        "quality": "unstable",
+        "warnings": [
+          "Only 40 observations. The 99% confidence term contributes 0.179 to the bound, which is large relative to the observed proportion of 0.250. Treat this as indicative."
+        ],
+        "diagnostics": {
+          "sampleCount": 40,
+          "counts": [6, 3, 7, 8, 6, 10],
+          "modeSymbol": 5,
+          "modeCount": 10,
+          "pHat": 0.25,
+          "pUpper": 0.42860162751515885
+        }
+      },
+      {
+        "id": "collision",
+        "label": "Collision",
+        "applicable": true,
+        "bitsPerSymbol": 1.5537903026084114,
+        "quality": "unstable",
+        "warnings": [
+          "Only 46 collision runs were observed. The variance term is unreliable at this size; treat the result as indicative.",
+          "This estimate is computed over a 3-bit encoding of a 6-symbol alphabet. Because 6 is not a power of two, unreachable codewords bias the bitstring (observed one-rate 0.4333) independently of the source. The figure describes the source and this encoding together, not the source alone."
+        ],
+        "diagnostics": {
+          "track": "bitstring",
+          "bitCount": 120,
+          "runs": 46,
+          "meanRunLength": 2.608695652173913,
+          "stdDev": 0.493435163795169,
+          "meanLowerBound": 2.4212962249170022,
+          "clampedMeanBound": 2.4212962249170022,
+          "pCollision": 0.6983731018598511,
+          "bitsPerEncodedBit": 0.5179301008694704,
+          "scaledBeforeCeiling": 1.5537903026084114,
+          "alphabetCeiling": 2.584962500721156,
+          "saturated": false,
+          "encodingWidth": 3,
+          "encodingOneRate": 0.43333333333333335,
+          "usedUpperFallback": false
+        }
+      },
+      {
+        "id": "markov",
+        "label": "Markov",
+        "applicable": false,
+        "quality": "not-applicable",
+        "inapplicabilityReason": "insufficient-samples",
+        "warnings": [
+          "The method maximises over a chain of 128 symbols and needs at least that many observations. Received 40."
+        ],
+        "diagnostics": {
+          "sampleCount": 40,
+          "requiredSamples": 128
+        }
+      },
+      {
+        "id": "lag-predictor",
+        "label": "Lag predictor",
+        "applicable": false,
+        "quality": "not-applicable",
+        "inapplicabilityReason": "insufficient-samples",
+        "warnings": [
+          "Tracking 128 lags needs at least 256 observations for the widest lag to be scored at all. Received 40."
+        ],
+        "diagnostics": {
+          "sampleCount": 40,
+          "requiredSamples": 256,
+          "lagWindow": 128
+        }
+      }
+    ],
+    "limitingEstimator": "most-common-value",
+    "conservativeBitsPerSymbol": 1.2222907665630778,
+    "targetGuidance": [
+      {
+        "targetBits": 128,
+        "estimatedSamplesRequired": 105
+      },
+      {
+        "targetBits": 256,
+        "estimatedSamplesRequired": 210
+      }
+    ],
+    "warnings": [
+      "2 of 4 estimators could not run: Markov, Lag predictor. The figure below is the lowest of those that did, and a method that could not run may have found something the others missed.",
+      "The limiting estimator (Most common value) reported an unstable result, so the headline figure rests on the weakest evidence in the set. Collect more observations before relying on it."
+    ]
+  },
+  "assumptions": [
+    "The observations were produced by the same physical process the report describes.",
+    "Observations are recorded in the order they occurred. Every sequential estimator depends on this.",
+    "The alphabet is fixed and every outcome was recorded, including repeats and results the operator disliked.",
+    "The calibration sample is representative of how the process will behave during the ceremony it is meant to inform."
+  ],
+  "limitations": [
+    "Statistical testing cannot establish that a source is random. It can only find structure, and finding none is not proof that none exists.",
+    "These four estimators do not exhaust the ways a physical process can be predictable. A source can pass all of them and still be predictable by a method not implemented here.",
+    "The result describes the observed sample. It does not guarantee how the process will behave later, and human-operated processes drift.",
+    "Small samples produce unstable estimates. Where an estimator reports instability, the figure can move substantially with more data.",
+    "A figure at the alphabet ceiling means no structure was found, not that the source was shown to be strong.",
+    "This is not a NIST SP 800-90B validation and confers no certification. Estimators derived from that document are noted individually, including where this implementation diverges from it.",
+    "Entropy quality is one part of seed security. It does not address the wallet, the derivation, the operating system, or physical observation of the ceremony."
+  ]
+}
