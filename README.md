@@ -18,13 +18,14 @@ EntropyLab profiles the entropy-generation **process**. It does not:
 
 ## Demo
 
-The demo video is not recorded yet. The route it follows is written up in
-[docs/DEMO.md](./docs/DEMO.md), and everything in it runs from the application today.
+**[winsznx.github.io/entropylab](https://winsznx.github.io/entropylab/)**
 
-A hosted build is configured but has not published yet. The link goes here once a deployment has
-actually succeeded.
+Open it, pick the periodic balanced dataset, and the argument is on screen in about ten seconds.
+Then turn your network off and reload: it keeps working, because the analysis was never running
+anywhere else.
 
-Until then, [run it locally](#run-the-application). It takes two commands.
+The video is not recorded yet. The route it will follow is written up in
+[docs/DEMO.md](./docs/DEMO.md), and every step in it runs from the application today.
 
 ## Why it exists
 
@@ -70,7 +71,7 @@ yet.
 | Local persistence and report export          | Implemented                                                                 |
 | Integrator API and example                   | Implemented                                                                 |
 | Privacy audit                                | Implemented                                                                 |
-| Static deployment                            | Configured, not yet published                                               |
+| Static deployment                            | Live                                                                        |
 | Physical dice import pipeline                | Implemented, awaiting real rolls                                            |
 | Real physical dice dataset                   | Not collected                                                               |
 | Demo video                                   | Not recorded                                                                |

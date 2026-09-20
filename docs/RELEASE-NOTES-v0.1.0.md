@@ -93,6 +93,6 @@ pnpm benchmark   # regenerates the published timings
 
 - [ ] Physical dice campaign recorded, analysed, and committed
 - [ ] Campaign F report published with real observations
-- [ ] Deployment succeeded and the link added to the README
+- [x] Deployment succeeded and the link added to the README
 - [ ] Demo recorded
 - [ ] CHANGELOG moved from Unreleased to 0.1.0
