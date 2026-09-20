@@ -17,6 +17,15 @@
 - Methodology and architecture documentation.
 - CI running formatting, typecheck, tests, and a check that `internal/` stays untracked.
 
+- Explanation layer turning an analysis into named findings and one recommended next step.
+- Observation parser and seed-material guardrails.
+- Offline-first web application: define, calibrate, analyze, understand, decide, export.
+- Local persistence in IndexedDB, with a private session that writes nothing.
+- Physical dice import pipeline and session protocol, awaiting real recordings.
+- Benchmarks generated from code.
+- Methodology boundaries separating published algorithms, adaptations, and this project's own thresholds.
+- End-to-end browser tests including offline operation and an assertion that no request leaves the origin.
+
 ### Notes
 
 - Repository initialized for BOSS Battle 2026.
