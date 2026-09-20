@@ -4,4 +4,10 @@ export { Z_ALPHA } from "./estimators/constants.js";
 export { MostCommonValueEstimator } from "./estimators/most-common-value.js";
 export { CollisionEstimator } from "./estimators/collision.js";
 export { MarkovEstimator } from "./estimators/markov.js";
+export { LagPredictorEstimator } from "./estimators/lag.js";
+export {
+  predictionEstimate,
+  type PredictionOutcome,
+  type PredictionEstimate,
+} from "./estimators/predictor-framework.js";
 export { binarize, bitsPerSymbolEncoding, type Binarization } from "./binarize.js";
