@@ -72,8 +72,14 @@ one.
 
 ## Session protocol
 
-The campaign expects at least three sessions so that per-session and combined
-analysis can be compared.
+The campaign expects three sessions of 256 valid observations, 768 total. The
+runner rejects a session with a different count rather than analysing it, so a
+miscount is caught before it reaches a published figure; set
+`EXPECTED_PER_SESSION` if a session was deliberately a different length.
+
+The full public protocol, including the invalid-roll rule and why per-session
+and combined results are reported separately, is in
+[docs/CAMPAIGN-F-PROTOCOL.md](../../docs/CAMPAIGN-F-PROTOCOL.md).
 
 Keep constant across sessions:
 
