@@ -1,0 +1,69 @@
+name: Deploy
+
+# Distribution only. The deployed application is the same static build that
+# runs from a local checkout: no backend, no analytics, no runtime API. Once
+# loaded it continues to work with the network off.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build:web
+
+      - name: Verify the build carries no off-origin reference
+        run: |
+          # Deployment must not reintroduce a CDN dependency. Namespace URIs
+          # and the documentation links on the "how it was tested" screen are
+          # the only external strings allowed.
+          if grep -rhoE "https?://[a-zA-Z0-9./_-]+" apps/web/dist/assets apps/web/dist/index.html \
+            | sort -u \
+            | grep -vE "^https?://(www\.)?w3\.org/" \
+            | grep -vE "^https://github\.com/winsznx/entropylab/" \
+            | grep -vE "^https://reactjs\.org/docs/error-decoder\.html$" \
+            | grep .; then
+            echo "Unexpected external reference in the build"
+            exit 1
+          fi
+          echo "No unexpected external references"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
