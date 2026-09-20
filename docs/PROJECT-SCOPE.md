@@ -45,7 +45,8 @@ Out of scope for v1:
 ## Core proof idea
 
 The way to show the profiler works is to feed it sources whose defects are known in advance and
-check that it separates them. The planned comparison set:
+check that it separates them. This is implemented; measured results are in
+[proof-campaign](./proof-campaign/). The comparison set:
 
 | Source class      | Defect                               | What a correct profiler should do                    |
 | ----------------- | ------------------------------------ | ---------------------------------------------------- |
@@ -57,3 +58,6 @@ check that it separates them. The planned comparison set:
 
 The periodic-balanced case is the one that matters most. A source that looks perfectly uniform in a
 histogram and is still fully predictable is exactly what a count-the-rolls approach misses.
+
+Measured: that source scores 2.4815 bits per symbol under frequency analysis, higher than the
+genuinely random control at 2.3983, and 0.0000 once sequence is considered.
