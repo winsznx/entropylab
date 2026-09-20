@@ -32,6 +32,15 @@ jobs:
       - name: Unit and regression tests
         run: pnpm test
 
+      - name: Build the application
+        run: pnpm build:web
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        run: pnpm test:e2e
+
       - name: Verify the proof campaign regenerates identically
         run: |
           pnpm campaign
@@ -49,3 +58,11 @@ jobs:
             exit 1
           fi
           echo "internal/ is untracked, as expected"
+
+      - name: Verify no physical calibration data was fabricated
+        run: |
+          if ls data/physical/physical-d6-session-*.txt >/dev/null 2>&1; then
+            echo "Physical session files are present; confirm they are real recordings"
+          else
+            echo "No physical session files, as expected until rolls are recorded"
+          fi
