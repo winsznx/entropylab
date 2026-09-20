@@ -15,7 +15,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "campaign": "tsx scripts/run-proof-campaign.ts",
-    "check": "pnpm format:check && pnpm typecheck && pnpm test"
+    "check": "pnpm format:check && pnpm typecheck && pnpm test",
+    "campaign:physical": "tsx scripts/run-physical-campaign.ts"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

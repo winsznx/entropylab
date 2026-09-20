@@ -1,0 +1,18 @@
+# EXAMPLE FILE. These observations are illustrative, not recorded.
+# The campaign runner ignores any file whose name starts with EXAMPLE.
+#
+# session: 0 (example)
+# date: not a real session
+# die: none, this file exists to show the format
+# surface: none
+# method: none
+#
+# Real sessions are named physical-d6-session-1.txt and so on, and contain
+# observations actually read off a die, in the order they occurred.
+
+1 4 2 6
+3 3 5 1
+6 2 4 5
+
+# Comments may appear between rows, for instance to note a break.
+2 5 1 3

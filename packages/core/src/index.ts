@@ -12,3 +12,13 @@ export {
 } from "./estimators/predictor-framework.js";
 export { binarize, bitsPerSymbolEncoding, type Binarization } from "./binarize.js";
 export { analyze, defaultEstimators, ALGORITHM_VERSION, type AnalyzeOptions } from "./analyze.js";
+export {
+  parseObservations,
+  parseSample,
+  formatObservations,
+  defaultLabels,
+  type ParseResult,
+  type ParseIssue,
+  type ParseOptions,
+} from "./parse.js";
+export { detectSecretMaterial, type SecretWarning, type SecretSignal } from "./guardrails.js";
