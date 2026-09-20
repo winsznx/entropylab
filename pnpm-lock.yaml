@@ -37,6 +37,10 @@ importers:
       '@entropylab/core':
         specifier: workspace:*
         version: link:../core
+    devDependencies:
+      '@entropylab/fixtures':
+        specifier: workspace:*
+        version: link:../fixtures
 
 packages:
 
