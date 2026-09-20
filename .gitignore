@@ -45,3 +45,4 @@ pnpm-debug.log*
 *.tmp
 .vscode/*
 !.vscode/extensions.json
+.scratch/
