@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check formatting
+        run: pnpm format:check
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit and regression tests
+        run: pnpm test
+
+      - name: Verify internal material is not tracked
+        run: |
+          if git ls-files --error-unmatch internal/ >/dev/null 2>&1; then
+            echo "internal/ is tracked; private planning material must stay local"
+            exit 1
+          fi
+          echo "internal/ is untracked, as expected"

@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@entropylab/core": ["./packages/core/src/index.ts"],
+      "@entropylab/fixtures": ["./packages/fixtures/src/index.ts"],
+      "@entropylab/report": ["./packages/report/src/index.ts"]
+    }
+  },
+  "include": ["packages/*/src/**/*.ts", "packages/*/test/**/*.ts", "scripts/**/*.ts", "*.ts"]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "entropylab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline profiling for physical Bitcoin entropy processes before they are trusted with a seed.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "campaign": "tsx scripts/run-proof-campaign.ts",
+    "check": "pnpm format:check && pnpm typecheck && pnpm test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "prettier": "^3.4.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

@@ -47,13 +47,13 @@ Out of scope for v1:
 The way to show the profiler works is to feed it sources whose defects are known in advance and
 check that it separates them. The planned comparison set:
 
-| Source class | Defect | What a correct profiler should do |
-|---|---|---|
-| fair-like | none injected | report a bound near the theoretical maximum |
-| biased | skewed face probabilities | penalize via the most-common-value estimator |
-| periodic-balanced | uniform marginals, repeating pattern | pass a frequency check, fail a sequential check |
-| correlated | outcome depends on the previous one | penalize via the Markov estimator and lag predictor |
-| low-sample | too few observations | report low confidence rather than a confident number |
+| Source class      | Defect                               | What a correct profiler should do                    |
+| ----------------- | ------------------------------------ | ---------------------------------------------------- |
+| fair-like         | none injected                        | report a bound near the theoretical maximum          |
+| biased            | skewed face probabilities            | penalize via the most-common-value estimator         |
+| periodic-balanced | uniform marginals, repeating pattern | pass a frequency check, fail a sequential check      |
+| correlated        | outcome depends on the previous one  | penalize via the Markov estimator and lag predictor  |
+| low-sample        | too few observations                 | report low confidence rather than a confident number |
 
 The periodic-balanced case is the one that matters most. A source that looks perfectly uniform in a
 histogram and is still fully predictable is exactly what a count-the-rolls approach misses.

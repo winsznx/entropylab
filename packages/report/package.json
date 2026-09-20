@@ -1,0 +1,14 @@
+{
+  "name": "@entropylab/report",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Canonical JSON and Markdown reports for EntropyLab analyses.",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@entropylab/core": "workspace:*"
+  }
+}

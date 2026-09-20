@@ -1,0 +1,14 @@
+{
+  "name": "@entropylab/fixtures",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Deterministic adversarial entropy fixtures.",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@entropylab/core": "workspace:*"
+  }
+}
