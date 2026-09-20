@@ -26,6 +26,12 @@
 - Methodology boundaries separating published algorithms, adaptations, and this project's own thresholds.
 - End-to-end browser tests including offline operation and an assertion that no request leaves the origin.
 
+- Integrator example and integration guide.
+- Physical campaign protocol, with the invalid-roll rule declared in advance.
+- Privacy audit performed against the production build.
+- Static deployment to GitHub Pages, with a guard against off-origin references.
+- Demo script and draft release notes.
+
 ### Notes
 
 - Repository initialized for BOSS Battle 2026.
