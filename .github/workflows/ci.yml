@@ -32,6 +32,16 @@ jobs:
       - name: Unit and regression tests
         run: pnpm test
 
+      - name: Verify the proof campaign regenerates identically
+        run: |
+          pnpm campaign
+          if ! git diff --quiet -- docs/proof-campaign; then
+            echo "docs/proof-campaign differs from a fresh run; regenerate with 'pnpm campaign'"
+            git diff --stat -- docs/proof-campaign
+            exit 1
+          fi
+          echo "Published campaign results match a fresh run"
+
       - name: Verify internal material is not tracked
         run: |
           if git ls-files --error-unmatch internal/ >/dev/null 2>&1; then

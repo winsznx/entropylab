@@ -10,24 +10,24 @@ Limiting estimator: **Most common value**.
 
 ## Dataset
 
-| Field                | Value                                                              |
-| -------------------- | ------------------------------------------------------------------ |
-| Source               | LOW_SAMPLE                                                         |
-| Observations         | 40                                                                 |
-| Alphabet size        | 6                                                                  |
-| Collection method    | synthetic fixture LOW_SAMPLE                                       |
+| Field | Value |
+| --- | --- |
+| Source | LOW_SAMPLE |
+| Observations | 40 |
+| Alphabet size | 6 |
+| Collection method | synthetic fixture LOW_SAMPLE |
 | Input hash (SHA-256) | `887ecac0eb4ae5f5f1f6909f56c2bdbc4555867d77f67654f5cfec72497b5511` |
-| Algorithm version    | 0.1.0                                                              |
-| Report format        | 1.0.0                                                              |
+| Algorithm version | 0.1.0 |
+| Report format | 1.0.0 |
 
 ## Estimators
 
-| Estimator         | Bits per symbol | Status                          |
-| ----------------- | --------------- | ------------------------------- |
-| Most common value | 1.2223          | unstable, treat as indicative   |
-| Collision         | 1.5538          | unstable, treat as indicative   |
-| Markov            | not applicable  | declined (insufficient-samples) |
-| Lag predictor     | not applicable  | declined (insufficient-samples) |
+| Estimator | Bits per symbol | Status |
+| --- | --- | --- |
+| Most common value | 1.2223 | unstable, treat as indicative |
+| Collision | 1.5538 | unstable, treat as indicative |
+| Markov | not applicable | declined (insufficient-samples) |
+| Lag predictor | not applicable | declined (insufficient-samples) |
 
 ## What to know about this result
 
@@ -41,10 +41,10 @@ Limiting estimator: **Most common value**.
 
 ## Target guidance
 
-| Target   | Observations required at the measured rate |
-| -------- | ------------------------------------------ |
-| 128 bits | 105                                        |
-| 256 bits | 210                                        |
+| Target | Observations required at the measured rate |
+| --- | --- |
+| 128 bits | 105 |
+| 256 bits | 210 |
 
 These counts follow from the calibration sample. They are guidance, not a guarantee about observations that have not been made yet.
 

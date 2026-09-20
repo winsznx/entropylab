@@ -6,13 +6,13 @@ Regenerate the directory and diff it to check any figure quoted elsewhere.
 All figures are estimated min-entropy in bits per symbol. The ideal for a
 six-symbol alphabet is 2.5850.
 
-| Fixture           | Most common value | Collision | Markov   | Lag predictor | Conservative | Limiting          |
-| ----------------- | ----------------- | --------- | -------- | ------------- | ------------ | ----------------- |
-| FAIR_LIKE         | 2.3983            | 2.5850    | 2.2154   | 2.4620        | 2.2154       | markov            |
-| BIASED            | 1.4055            | 1.5130    | 1.3747   | 2.1733        | 1.3747       | markov            |
-| PERIODIC_BALANCED | 2.4815            | 2.5850    | 0.0194   | 0.0000        | 0.0000       | lag-predictor     |
-| STICKY_MARKOV     | 2.4232            | 2.5850    | 0.4765   | 0.5533        | 0.4765       | markov            |
-| LOW_SAMPLE        | 1.2223            | 1.5538    | declined | declined      | 1.2223       | most-common-value |
+| Fixture | Most common value | Collision | Markov | Lag predictor | Conservative | Limiting |
+| --- | --- | --- | --- | --- | --- | --- |
+| FAIR_LIKE | 2.3983 | 2.5850 | 2.2154 | 2.4620 | 2.2154 | markov |
+| BIASED | 1.4055 | 1.5130 | 1.3747 | 2.1733 | 1.3747 | markov |
+| PERIODIC_BALANCED | 2.4815 | 2.5850 | 0.0194 | 0.0000 | 0.0000 | lag-predictor |
+| STICKY_MARKOV | 2.4232 | 2.5850 | 0.4765 | 0.5533 | 0.4765 | markov |
+| LOW_SAMPLE | 1.2223 | 1.5538 | declined | declined | 1.2223 | most-common-value |
 
 ## What this table shows
 

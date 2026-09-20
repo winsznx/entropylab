@@ -10,24 +10,24 @@ Limiting estimator: **Lag predictor**.
 
 ## Dataset
 
-| Field                | Value                                                              |
-| -------------------- | ------------------------------------------------------------------ |
-| Source               | PERIODIC_BALANCED                                                  |
-| Observations         | 6000                                                               |
-| Alphabet size        | 6                                                                  |
-| Collection method    | synthetic fixture PERIODIC_BALANCED                                |
+| Field | Value |
+| --- | --- |
+| Source | PERIODIC_BALANCED |
+| Observations | 6000 |
+| Alphabet size | 6 |
+| Collection method | synthetic fixture PERIODIC_BALANCED |
 | Input hash (SHA-256) | `6d4320e059e0ce9b8043f9982b4453f01cf67837a2d1779d0bed4db89aae88f0` |
-| Algorithm version    | 0.1.0                                                              |
-| Report format        | 1.0.0                                                              |
+| Algorithm version | 0.1.0 |
+| Report format | 1.0.0 |
 
 ## Estimators
 
-| Estimator         | Bits per symbol | Status |
-| ----------------- | --------------- | ------ |
-| Most common value | 2.4815          | usable |
-| Collision         | 2.5850          | usable |
-| Markov            | 0.0194          | usable |
-| Lag predictor     | 0.0000          | usable |
+| Estimator | Bits per symbol | Status |
+| --- | --- | --- |
+| Most common value | 2.4815 | usable |
+| Collision | 2.5850 | usable |
+| Markov | 0.0194 | usable |
+| Lag predictor | 0.0000 | usable |
 
 ## What to know about this result
 

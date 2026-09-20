@@ -31,7 +31,14 @@
         ],
         "diagnostics": {
           "sampleCount": 40,
-          "counts": [6, 3, 7, 8, 6, 10],
+          "counts": [
+            6,
+            3,
+            7,
+            8,
+            6,
+            10
+          ],
           "modeSymbol": 5,
           "modeCount": 10,
           "pHat": 0.25,

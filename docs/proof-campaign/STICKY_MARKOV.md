@@ -10,24 +10,24 @@ Limiting estimator: **Markov**.
 
 ## Dataset
 
-| Field                | Value                                                              |
-| -------------------- | ------------------------------------------------------------------ |
-| Source               | STICKY_MARKOV                                                      |
-| Observations         | 6000                                                               |
-| Alphabet size        | 6                                                                  |
-| Collection method    | synthetic fixture STICKY_MARKOV                                    |
+| Field | Value |
+| --- | --- |
+| Source | STICKY_MARKOV |
+| Observations | 6000 |
+| Alphabet size | 6 |
+| Collection method | synthetic fixture STICKY_MARKOV |
 | Input hash (SHA-256) | `e7556dc585547ebf969b0c709d04df8a0e32373a16eeb0bc70bbd7193745ec06` |
-| Algorithm version    | 0.1.0                                                              |
-| Report format        | 1.0.0                                                              |
+| Algorithm version | 0.1.0 |
+| Report format | 1.0.0 |
 
 ## Estimators
 
-| Estimator         | Bits per symbol | Status |
-| ----------------- | --------------- | ------ |
-| Most common value | 2.4232          | usable |
-| Collision         | 2.5850          | usable |
-| Markov            | 0.4765          | usable |
-| Lag predictor     | 0.5533          | usable |
+| Estimator | Bits per symbol | Status |
+| --- | --- | --- |
+| Most common value | 2.4232 | usable |
+| Collision | 2.5850 | usable |
+| Markov | 0.4765 | usable |
+| Lag predictor | 0.5533 | usable |
 
 ## What to know about this result
 
@@ -39,10 +39,10 @@ Limiting estimator: **Markov**.
 
 ## Target guidance
 
-| Target   | Observations required at the measured rate |
-| -------- | ------------------------------------------ |
-| 128 bits | 269                                        |
-| 256 bits | 538                                        |
+| Target | Observations required at the measured rate |
+| --- | --- |
+| 128 bits | 269 |
+| 256 bits | 538 |
 
 These counts follow from the calibration sample. They are guidance, not a guarantee about observations that have not been made yet.
 

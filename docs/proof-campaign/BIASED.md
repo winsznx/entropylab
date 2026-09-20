@@ -10,24 +10,24 @@ Limiting estimator: **Markov**.
 
 ## Dataset
 
-| Field                | Value                                                              |
-| -------------------- | ------------------------------------------------------------------ |
-| Source               | BIASED                                                             |
-| Observations         | 6000                                                               |
-| Alphabet size        | 6                                                                  |
-| Collection method    | synthetic fixture BIASED                                           |
+| Field | Value |
+| --- | --- |
+| Source | BIASED |
+| Observations | 6000 |
+| Alphabet size | 6 |
+| Collection method | synthetic fixture BIASED |
 | Input hash (SHA-256) | `b5d11c562a0e9209bec7422b23bc9d07fd2a1412c6c9e2de978863e5d20760ff` |
-| Algorithm version    | 0.1.0                                                              |
-| Report format        | 1.0.0                                                              |
+| Algorithm version | 0.1.0 |
+| Report format | 1.0.0 |
 
 ## Estimators
 
-| Estimator         | Bits per symbol | Status |
-| ----------------- | --------------- | ------ |
-| Most common value | 1.4055          | usable |
-| Collision         | 1.5130          | usable |
-| Markov            | 1.3747          | usable |
-| Lag predictor     | 2.1733          | usable |
+| Estimator | Bits per symbol | Status |
+| --- | --- | --- |
+| Most common value | 1.4055 | usable |
+| Collision | 1.5130 | usable |
+| Markov | 1.3747 | usable |
+| Lag predictor | 2.1733 | usable |
 
 ## What to know about this result
 
@@ -37,10 +37,10 @@ Limiting estimator: **Markov**.
 
 ## Target guidance
 
-| Target   | Observations required at the measured rate |
-| -------- | ------------------------------------------ |
-| 128 bits | 94                                         |
-| 256 bits | 187                                        |
+| Target | Observations required at the measured rate |
+| --- | --- |
+| 128 bits | 94 |
+| 256 bits | 187 |
 
 These counts follow from the calibration sample. They are guidance, not a guarantee about observations that have not been made yet.
 
