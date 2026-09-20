@@ -18,7 +18,8 @@
     "check": "pnpm format:check && pnpm typecheck && pnpm test",
     "campaign:physical": "tsx scripts/run-physical-campaign.ts",
     "build:web": "pnpm --filter @entropylab/web build",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "benchmark": "tsx scripts/run-benchmarks.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",

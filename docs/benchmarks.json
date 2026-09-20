@@ -1,0 +1,61 @@
+{
+  "node": "v24.19.0",
+  "platform": "darwin/arm64",
+  "rows": [
+    {
+      "sampleCount": 100,
+      "pipelineMs": 0.04737500000000239,
+      "estimatorMs": {
+        "most-common-value": 0.004333000000002585,
+        "collision": 0.010708000000008155,
+        "markov": 0.0017919999999946867,
+        "lag-predictor": 0.002042000000002986
+      },
+      "peakHeapMb": 0.837493896484375
+    },
+    {
+      "sampleCount": 1000,
+      "pipelineMs": 0.6563330000000036,
+      "estimatorMs": {
+        "most-common-value": 0.009582999999992126,
+        "collision": 0.03275000000000716,
+        "markov": 0.08345800000000736,
+        "lag-predictor": 0.4636249999999933
+      },
+      "peakHeapMb": -1.00848388671875
+    },
+    {
+      "sampleCount": 10000,
+      "pipelineMs": 5.213792000000012,
+      "estimatorMs": {
+        "most-common-value": 0.018000000000000682,
+        "collision": 0.23049999999997794,
+        "markov": 0.4227080000000001,
+        "lag-predictor": 4.638417000000004
+      },
+      "peakHeapMb": -0.0823974609375
+    },
+    {
+      "sampleCount": 100000,
+      "pipelineMs": 52.24295799999999,
+      "estimatorMs": {
+        "most-common-value": 0.17570800000004283,
+        "collision": 2.7902500000000146,
+        "markov": 1.5926249999999982,
+        "lag-predictor": 46.78891599999997
+      },
+      "peakHeapMb": 14.351310729980469
+    },
+    {
+      "sampleCount": 1000000,
+      "pipelineMs": 517.5986250000001,
+      "estimatorMs": {
+        "most-common-value": 1.801332999999886,
+        "collision": 33.7981249999998,
+        "markov": 4.452582999999777,
+        "lag-predictor": 462.0014169999995
+      },
+      "peakHeapMb": 50.981224060058594
+    }
+  ]
+}
