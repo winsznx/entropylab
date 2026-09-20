@@ -17,6 +17,8 @@
     "scripts/**/*.ts",
     "apps/web/src/**/*.ts",
     "apps/web/src/**/*.tsx",
-    "*.ts"
+    "*.ts",
+    "examples/*/src/**/*.ts",
+    "examples/*/test/**/*.ts"
   ]
 }
