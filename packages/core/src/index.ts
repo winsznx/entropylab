@@ -11,3 +11,4 @@ export {
   type PredictionEstimate,
 } from "./estimators/predictor-framework.js";
 export { binarize, bitsPerSymbolEncoding, type Binarization } from "./binarize.js";
+export { analyze, defaultEstimators, ALGORITHM_VERSION, type AnalyzeOptions } from "./analyze.js";
