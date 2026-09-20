@@ -22,3 +22,10 @@ export {
   type ParseOptions,
 } from "./parse.js";
 export { detectSecretMaterial, type SecretWarning, type SecretSignal } from "./guardrails.js";
+export {
+  explain,
+  type Explanation,
+  type Finding,
+  type FindingKind,
+  type Recommendation,
+} from "./explain.js";
