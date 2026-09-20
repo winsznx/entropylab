@@ -7,6 +7,171 @@ EntropyLab is not a NIST SP 800-90B validation and confers no certification.
 Four of the methods below are derived from that document; the departures are
 listed rather than smoothed over.
 
+## Methodology boundaries
+
+Not every number EntropyLab reports carries the same authority. Some come
+straight from a published algorithm, some come from an algorithm this project
+adapted, and some are thresholds this project chose. Mixing those together
+would let the credibility of the first category cover the third, so they are
+separated here.
+
+EntropyLab is **not** a NIST SP 800-90B validation. It performs no entropy
+source validation, confers no certification, and its output is not a
+substitute for either.
+
+### A. Published algorithms used directly
+
+Implemented as specified, on the data the specification says they apply to.
+Both agree with the NIST reference implementation to ten decimal places on
+every campaign fixture.
+
+| Estimator         | Source                                                             | Note                                                               |
+| ----------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| Most common value | SP 800-90B 6.3.1                                                   | Defined over an arbitrary alphabet; runs on d6 symbols unmodified. |
+| Lag predictor     | SP 800-90B 6.3.8, with the predictor conversion of 6.3.7 to 6.3.10 | No alphabet restriction; runs on d6 symbols unmodified.            |
+
+The only change in this category is clamping `-log2(1)` to `+0`.
+
+### B. Published algorithms this project adapted
+
+These produce useful numbers, but a reader must not treat them as the
+published methods.
+
+**Collision (SP 800-90B 6.3.2), two adaptations.**
+
+1. The solve follows NIST's reference implementation rather than the text of
+   step 7. The document describes a binary search against
+   `F(1/z) = Gamma(3,z) z^-3 e^z`; the reference code notes the expression
+   reduces to `X' = -2p^2 + 2p + 2` and solves the quadratic. These are
+   equivalent by NIST's own derivation, and following the reference keeps
+   results comparable with the tool practitioners run.
+2. The result is capped at `log2(k)`. Scaling `n * H_bitstring` for a d6
+   returns 3 bits per symbol whenever the bitstring shows no collision
+   structure, which six faces cannot carry. SP 800-90B never prints that value
+   because its section 3.1.3 takes a minimum against the symbol-alphabet
+   estimate immediately; reported standalone, the uncapped product is an
+   impossibility.
+
+**Markov: a generalisation, not the published estimator.** This is the largest
+departure in the project and the one to read before quoting any Markov figure.
+
+The final specification's Markov estimate is binary-only, over a 2x2 matrix
+with six enumerated candidate chains. EntropyLab runs a `k x k` matrix with a
+dynamic programming search over all chains. It does not reduce to the published
+method at `k = 2`: the published method uses raw transition proportions, this
+uses confidence-bounded ones, and on identical binary input this reports the
+lower figure.
+
+The structure is not invented. The 2016 second draft of SP 800-90B specified a
+general-alphabet Markov estimate for alphabets up to `k = 26`, built on a
+`k x k` matrix of confidence-bounded transitions with a dynamic programming
+path search. NIST removed it in the January 2018 final document, citing the
+data needed to estimate a large transition matrix reliably.
+
+One gap is unresolved and stated rather than papered over: the second draft's
+own confidence term could not be recovered in full, because the available
+source preserves that passage only as truncated tracked-changes text. The bound
+applied here is the 99% one-sided normal bound the final document uses
+everywhere else. Bounding every transition upward overestimates the best chain
+and so underestimates entropy, which is the conservative direction, but it is
+not the draft's term and is not described as such.
+
+This estimator is excluded from the reference comparison because the reference
+computes a different quantity. Forcing agreement would mean changing one of
+them into something other than what it claims to be.
+
+### C. Product-level thresholds chosen by this project
+
+SP 800-90B states almost no per-estimator minimum sample size, because its
+process assumes a validation dataset of at least 1,000,000 samples throughout.
+A dice ceremony produces hundreds. The gap has to be filled by a judgement, and
+these are the judgements. None of them is in the specification.
+
+| Gate                              | Value                  | Effect                            | Why this value                                                                                                                                    |
+| --------------------------------- | ---------------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Most common value, unstable below | 100 observations       | Reports a number, marked unstable | Where the confidence term stops being a correction: at L = 100 it adds ~0.13 to `p_hat` for a fair d6                                             |
+| Collision, unstable below         | 100 collision runs     | Reports a number, marked unstable | The variance term driving the bound is itself unreliable below this                                                                               |
+| Markov, declines below            | 128 observations       | No number                         | The method maximises over a 128-symbol chain; fewer observations than the chain length is meaningless                                             |
+| Markov, row sparsity              | 30 transitions per row | Result marked unstable            | Thin rows carry confidence bounds wide enough to dominate the path probability                                                                    |
+| Lag predictor, declines below     | 256 observations       | No number                         | A 128-lag scoreboard needs each lag scored at least once; the reference tool runs from `L > 2` and will return a confident figure from 40 samples |
+| Target guidance at zero bits      | Omitted                | No count shown                    | A process yielding nothing does not reach a target by being repeated                                                                              |
+
+The lag gate is the most consequential. On the 40-observation fixture the NIST
+reference returns 1.9002 bits per symbol; EntropyLab declines. The reference is
+not wrong for its own purpose, but a confident figure from 40 rolls is the
+specific failure this product exists to prevent.
+
+**The combination rule is also a project decision**, though it follows NIST's
+practice. The conservative figure is the lowest bits-per-symbol among
+applicable estimators. Estimators that could not run are excluded, never
+counted as zero, because counting them as zero would convert an underpowered
+sample into a detected weakness.
+
+### D. Where encoding influences the result
+
+SP 800-90B restricts the collision and Markov estimates to binary input, and
+section 3.1.3 handles non-binary sources by serialising each sample to its
+`n`-bit representation.
+
+That procedure assumes the source already emits `n`-bit values. A die does not.
+Six faces do not fill a three-bit codeword, and the specification gives no
+canonical mapping for a non-power-of-two alphabet. EntropyLab uses a
+fixed-width big-endian encoding of the symbol index, and the consequence is
+measurable:
+
+Faces 0 to 5 encode as `000, 001, 010, 011, 100, 101`, seven ones in eighteen
+bits. A perfectly fair die produces a bitstring with a one-rate near 0.389
+rather than 0.5.
+
+Any collision figure for a non-power-of-two alphabet therefore measures the
+source and this encoding together and cannot be read as a property of the die
+alone. Every such result carries that warning in the report. It is also why the
+two estimators that run on symbols directly carry more weight for dice than the
+two that do not.
+
+### E. Reference comparison, and what it does and does not show
+
+Every comparable estimator agrees with the NIST reference implementation to ten
+decimal places on all five campaign fixtures. The comparison binary is built by
+lifting the estimator functions out of NIST's own C++ rather than
+reimplementing them, so a disagreement would be a disagreement with NIST's
+arithmetic.
+
+What that establishes: these implementations compute what they claim to
+compute.
+
+What it does not establish: that the estimates are correct for a physical
+source, that the source is random, or that anything here is validated. The
+comparison checks arithmetic against a reference, on synthetic data, at sample
+sizes far below what either implementation was designed around.
+
+### F. Why a small calibration sample is not a certification
+
+SP 800-90B's assessment process assumes at least 1,000,000 samples collected
+directly from the noise source, under a documented submission describing the
+source's design. A physical dice calibration produces a few hundred rolls from
+a process that a person operates and can change between sessions.
+
+Three consequences follow, and they hold no matter how clean the numbers look:
+
+1. **The confidence bounds do most of the work at these sizes.** A perfectly
+   balanced 6000-roll d6 reports 2.481 bits per symbol against a 2.585 ideal.
+   That 0.10 bit gap is the 99% bound, not a defect in the die. At a few
+   hundred rolls the gap is larger still, so a low figure may reflect sample
+   size rather than the source.
+2. **A calibration sample describes what happened, not what will happen.** The
+   estimators model the observed sequence. A human-operated process drifts:
+   attention, grip, surface, and fatigue all change between a calibration
+   session and a ceremony.
+3. **Finding no structure is not evidence of its absence.** These four methods
+   do not exhaust the ways a process can be predictable. A result at the
+   alphabet ceiling means these methods found nothing.
+
+What EntropyLab can honestly claim is that it measures evidence of bias and
+predictability in a calibration process, reports which method limits the
+estimate, and states what the figure rests on. It cannot claim a source is
+random, and no output of this tool should be read that way.
+
 ## Summary
 
 | Estimator         | Source                             | Runs on d6 directly      | Departs from source           |

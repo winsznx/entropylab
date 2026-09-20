@@ -126,6 +126,12 @@ analysis.warnings;                   // what the reader needs to know
 Every estimator's source, assumptions, sample-size constraints, and departures from its source are
 documented in [docs/METHODOLOGY.md](./docs/METHODOLOGY.md).
 
+Start with
+[Methodology boundaries](./docs/METHODOLOGY.md#methodology-boundaries), which separates what is a
+published SP 800-90B algorithm, what this project adapted, which thresholds this project chose, and
+where the symbol encoding influences a result. Not every number here carries the same authority,
+and that section says which is which.
+
 Two departures are worth knowing before reading any number:
 
 - **Collision and Markov are binary-only in SP 800-90B.** A d6 has to be serialised to three bits
