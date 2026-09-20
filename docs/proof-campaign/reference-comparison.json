@@ -1,0 +1,125 @@
+{
+  "referenceCommit": "87c104d0ed4cbc96103e7b8b38d6f2c7e0a6b289",
+  "rows": [
+    {
+      "fixture": "FAIR_LIKE",
+      "mostCommonValue": {
+        "entropylab": 2.398261671027289,
+        "reference": 2.398261671027289,
+        "comparable": true
+      },
+      "lagPredictor": {
+        "entropylab": 2.4620141356221845,
+        "reference": 2.4620141356221845,
+        "comparable": true
+      },
+      "collisionPerEncodedBit": {
+        "entropylab": 1,
+        "reference": 1,
+        "comparable": true
+      },
+      "markov": {
+        "entropylab": null,
+        "reference": null,
+        "comparable": false,
+        "note": "The reference Markov estimate is binary-only and EntropyLab's is a k-ary generalisation. They compute different quantities and are not compared."
+      }
+    },
+    {
+      "fixture": "BIASED",
+      "mostCommonValue": {
+        "entropylab": 1.4055369600164038,
+        "reference": 1.4055369600164038,
+        "comparable": true
+      },
+      "lagPredictor": {
+        "entropylab": 2.1732842827783916,
+        "reference": 2.1732842827783916,
+        "comparable": true
+      },
+      "collisionPerEncodedBit": {
+        "entropylab": 0.5043458477733435,
+        "reference": 0.5043458477733435,
+        "comparable": true
+      },
+      "markov": {
+        "entropylab": null,
+        "reference": null,
+        "comparable": false,
+        "note": "The reference Markov estimate is binary-only and EntropyLab's is a k-ary generalisation. They compute different quantities and are not compared."
+      }
+    },
+    {
+      "fixture": "PERIODIC_BALANCED",
+      "mostCommonValue": {
+        "entropylab": 2.4814796531622965,
+        "reference": 2.4814796531622965,
+        "comparable": true
+      },
+      "lagPredictor": {
+        "entropylab": 0,
+        "reference": 0,
+        "comparable": true
+      },
+      "collisionPerEncodedBit": {
+        "entropylab": 1,
+        "reference": 1,
+        "comparable": true
+      },
+      "markov": {
+        "entropylab": null,
+        "reference": null,
+        "comparable": false,
+        "note": "The reference Markov estimate is binary-only and EntropyLab's is a k-ary generalisation. They compute different quantities and are not compared."
+      }
+    },
+    {
+      "fixture": "STICKY_MARKOV",
+      "mostCommonValue": {
+        "entropylab": 2.42324413505131,
+        "reference": 2.42324413505131,
+        "comparable": true
+      },
+      "lagPredictor": {
+        "entropylab": 0.553285010637393,
+        "reference": 0.553285010637393,
+        "comparable": true
+      },
+      "collisionPerEncodedBit": {
+        "entropylab": 1,
+        "reference": 1,
+        "comparable": true
+      },
+      "markov": {
+        "entropylab": null,
+        "reference": null,
+        "comparable": false,
+        "note": "The reference Markov estimate is binary-only and EntropyLab's is a k-ary generalisation. They compute different quantities and are not compared."
+      }
+    },
+    {
+      "fixture": "LOW_SAMPLE",
+      "mostCommonValue": {
+        "entropylab": 1.2222907665630778,
+        "reference": 1.2222907665630778,
+        "comparable": true
+      },
+      "lagPredictor": {
+        "entropylab": null,
+        "reference": 1.900225421719946,
+        "comparable": true
+      },
+      "collisionPerEncodedBit": {
+        "entropylab": 0.5179301008694704,
+        "reference": 0.5179301008694704,
+        "comparable": true
+      },
+      "markov": {
+        "entropylab": null,
+        "reference": null,
+        "comparable": false,
+        "note": "The reference Markov estimate is binary-only and EntropyLab's is a k-ary generalisation. They compute different quantities and are not compared."
+      }
+    }
+  ]
+}
