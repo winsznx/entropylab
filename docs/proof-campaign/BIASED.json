@@ -6,7 +6,7 @@
     "sourceType": "d6",
     "alphabetSize": 6,
     "collectionMethod": "synthetic fixture BIASED",
-    "notes": "Symbol 0 occurs roughly three times as often as each other face."
+    "notes": "One face occurs roughly three times as often as each other face."
   },
   "dataset": {
     "source": "BIASED",

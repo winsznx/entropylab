@@ -38,7 +38,7 @@ export function fairLike(length = 6000, seed = "entropylab/fair-like/v1"): Entro
 /**
  * Frequency-biased source, modelling a weighted or shaved die.
  *
- * Symbol 0 is drawn roughly three times as often as each other face. The defect
+ * The first face is drawn roughly three times as often as each other face. The defect
  * lives entirely in the marginal distribution, so a frequency-based estimator
  * should detect it and a purely sequential one should not.
  */
@@ -114,7 +114,7 @@ export function allFixtures(): Fixture[] {
     {
       id: "BIASED",
       label: "Biased d6",
-      defect: "Symbol 0 occurs roughly three times as often as each other face.",
+      defect: "One face occurs roughly three times as often as each other face.",
       expectation: "Frequency analysis degrades. Sequential analysis stays near ideal.",
       seed: "entropylab/biased/v1",
       sample: biased(),

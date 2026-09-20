@@ -8,3 +8,8 @@ docs/proof-campaign/
 
 # Extracted verbatim from the NIST reference implementation.
 scripts/reference-comparison/nist_reference.cpp
+
+# Build output
+apps/web/dist/
+test-results/
+playwright-report/

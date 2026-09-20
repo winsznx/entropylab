@@ -16,9 +16,12 @@
     "format:check": "prettier --check .",
     "campaign": "tsx scripts/run-proof-campaign.ts",
     "check": "pnpm format:check && pnpm typecheck && pnpm test",
-    "campaign:physical": "tsx scripts/run-physical-campaign.ts"
+    "campaign:physical": "tsx scripts/run-physical-campaign.ts",
+    "build:web": "pnpm --filter @entropylab/web build",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@types/node": "^22.10.2",
     "prettier": "^3.4.2",
     "tsx": "^4.19.2",

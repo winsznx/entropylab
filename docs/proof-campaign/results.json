@@ -18,7 +18,7 @@
     },
     {
       "fixture": "BIASED",
-      "defect": "Symbol 0 occurs roughly three times as often as each other face.",
+      "defect": "One face occurs roughly three times as often as each other face.",
       "sampleCount": 6000,
       "idealBitsPerSymbol": 2.584962500721156,
       "estimators": {

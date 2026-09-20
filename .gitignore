@@ -46,3 +46,8 @@ pnpm-debug.log*
 .vscode/*
 !.vscode/extensions.json
 .scratch/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/

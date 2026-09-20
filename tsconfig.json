@@ -7,7 +7,16 @@
       "@entropylab/core": ["./packages/core/src/index.ts"],
       "@entropylab/fixtures": ["./packages/fixtures/src/index.ts"],
       "@entropylab/report": ["./packages/report/src/index.ts"]
-    }
+    },
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx"
   },
-  "include": ["packages/*/src/**/*.ts", "packages/*/test/**/*.ts", "scripts/**/*.ts", "*.ts"]
+  "include": [
+    "packages/*/src/**/*.ts",
+    "packages/*/test/**/*.ts",
+    "scripts/**/*.ts",
+    "apps/web/src/**/*.ts",
+    "apps/web/src/**/*.tsx",
+    "*.ts"
+  ]
 }

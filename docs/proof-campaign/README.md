@@ -42,7 +42,7 @@ correct response to too little data is to say so.
 ## Per-fixture reports
 
 - **FAIR_LIKE** ([JSON](./FAIR_LIKE.json), [Markdown](./FAIR_LIKE.md)) None. Seeded pseudo-random control.
-- **BIASED** ([JSON](./BIASED.json), [Markdown](./BIASED.md)) Symbol 0 occurs roughly three times as often as each other face.
+- **BIASED** ([JSON](./BIASED.json), [Markdown](./BIASED.md)) One face occurs roughly three times as often as each other face.
 - **PERIODIC_BALANCED** ([JSON](./PERIODIC_BALANCED.json), [Markdown](./PERIODIC_BALANCED.md)) Exactly uniform histogram, fully deterministic order.
 - **STICKY_MARKOV** ([JSON](./STICKY_MARKOV.json), [Markdown](./STICKY_MARKOV.md)) Previous symbol repeats with probability 0.6.
 - **LOW_SAMPLE** ([JSON](./LOW_SAMPLE.json), [Markdown](./LOW_SAMPLE.md)) None in the process. Only 40 observations.
