@@ -1,0 +1,47 @@
+# Private planning material, never published
+internal/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment and secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+__pycache__/
+.venv/
+venv/
+
+# Build output
+dist/
+build/
+out/
+.next/
+.turbo/
+
+# Test and coverage
+coverage/
+.nyc_output/
+
+# Caches and logs
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.cache/
+.pytest_cache/
+
+# Editor and runtime
+.idea/
+*.swp
+*.swo
+*.tmp
+.vscode/*
+!.vscode/extensions.json
