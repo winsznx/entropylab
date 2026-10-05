@@ -9,7 +9,7 @@ import { test, expect, type Page } from "@playwright/test";
 async function openDemo(page: Page, name: string): Promise<void> {
   await page.goto("/");
   await page.getByRole("button", { name }).first().click();
-  await expect(page.getByRole("heading", { name: "Analysis", level: 1 })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Result", level: 1 })).toBeVisible();
 }
 
 test.describe("the demonstration on the home screen", () => {
@@ -116,7 +116,7 @@ test.describe("define, calibrate, analyze, export", () => {
     await expect(page.locator(".progress__value")).toHaveText("11");
 
     await page.getByRole("button", { name: /Analyze 11 observations/ }).click();
-    await expect(page.getByRole("heading", { name: "Analysis", level: 1 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Result", level: 1 })).toBeVisible();
     await expect(page.getByText(/could not run on this sample/)).toBeVisible();
   });
 
@@ -327,7 +327,7 @@ test.describe("privacy audit", () => {
     await page.locator("body").click();
     for (const key of "561324") await page.keyboard.press(key);
     await page.getByRole("button", { name: /^Analyze \d+ observations$/ }).click();
-    await expect(page.getByRole("heading", { name: "Analysis", level: 1 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Result", level: 1 })).toBeVisible();
 
     expect(page.url()).toBe("http://localhost:4173/#/analysis");
     expect(page.url()).not.toMatch(/561324|observations=|data=/);

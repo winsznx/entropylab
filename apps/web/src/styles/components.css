@@ -1867,3 +1867,132 @@ p,
 .adequacy--complete .adequacy__level {
   color: var(--color-measured);
 }
+
+/* ---- method authority ------------------------------------------------- */
+
+.methods-table th[scope="row"] {
+  text-align: left;
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  font-size: var(--text-body-s-size);
+  letter-spacing: 0;
+  text-transform: none;
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-3);
+  white-space: normal;
+}
+
+.methods-table tr:last-child th[scope="row"] {
+  border-bottom: 0;
+}
+
+.methods-table__name {
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+.methods-table__caveat {
+  display: block;
+  margin-top: var(--space-1-5);
+  font-size: var(--text-micro-size);
+  color: var(--color-ink-muted);
+  max-width: 46ch;
+}
+
+.chip--authority-direct {
+  border-color: var(--color-measured-border);
+  background: var(--color-measured-soft);
+  color: var(--color-measured);
+}
+
+.chip--authority-adapted {
+  border-color: var(--color-unstable-border);
+  background: var(--color-unstable-soft);
+  color: var(--color-unstable-text);
+}
+
+/* The strongest visual separation of the three, because this is the one a
+   reader is most likely to quote as though it were the published method. */
+.chip--authority-generalised {
+  border-style: dashed;
+  border-color: var(--color-structure-border);
+  background: var(--color-structure-soft);
+  color: var(--color-structure-text);
+}
+
+/* ---- the contrast callout --------------------------------------------- */
+
+/* Shown when frequency analysis and the governing figure disagree sharply.
+   It is the product's whole argument, so on the datasets where it applies it
+   is stated rather than left for the reader to infer from two numbers in
+   different parts of the page. */
+.contrast {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  align-items: end;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface-muted);
+}
+
+.contrast__side {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.contrast__figure {
+  font-family: var(--font-mono);
+  font-size: var(--text-figure-m-size);
+  line-height: 1;
+  letter-spacing: var(--text-figure-m-tracking);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.contrast__figure--governing {
+  color: var(--color-structure);
+}
+
+.contrast__label {
+  font-size: var(--text-micro-size);
+  color: var(--color-ink-muted);
+}
+
+.contrast__claim {
+  grid-column: 1 / -1;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-strong);
+  font-size: var(--text-body-s-size);
+  font-weight: var(--weight-medium);
+}
+
+/* ---- result band ------------------------------------------------------ */
+
+/* The reading and the action it implies share one plate. Putting the
+   recommendation several sections below made the page read as a report to
+   study rather than a result to act on. */
+.result {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+  align-items: start;
+}
+
+@media (max-width: 1000px) {
+  .result {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.result__action {
+  padding-top: var(--space-2);
+}
+
+@media (min-width: 1001px) {
+  .result__action {
+    border-left: 1px solid var(--color-border);
+    padding-left: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  }
+}
