@@ -144,7 +144,12 @@ function useCountUp(target: number | undefined, still: boolean): number {
     const duration = 900;
     const start = performance.now();
     const tick = (now: number): void => {
-      const t = Math.min(1, (now - start) / duration);
+      // Clamped at both ends. A requestAnimationFrame timestamp is the start
+      // of the frame and can predate the performance.now() captured just
+      // before it, which made the elapsed fraction negative, the easing
+      // negative with it, and the reading render as a negative number of
+      // bits for one frame.
+      const t = Math.max(0, Math.min(1, (now - start) / duration));
       // Matches --ease-instrument, so the digits settle with the bar.
       const eased = 1 - Math.pow(1 - t, 4);
       setValue(target * eased);

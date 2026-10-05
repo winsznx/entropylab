@@ -23,7 +23,7 @@ In scope:
 
 - discrete physical sources (dice, coins, and similar small alphabets)
 - offline analysis of a recorded observation sequence
-- multiple independent estimators, with the most pessimistic result governing
+- four estimator families, with the most pessimistic applicable result governing
 - a structured, reproducible report
 
 Out of scope for v1:

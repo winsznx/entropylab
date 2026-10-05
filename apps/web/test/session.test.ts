@@ -121,3 +121,37 @@ describe("provenance", () => {
     expect(unlabelled.dataset.provenance).toBe("Unspecified");
   });
 });
+
+describe("the count-up easing", () => {
+  /**
+   * A requestAnimationFrame timestamp is the start of the frame and can
+   * predate the performance.now() captured immediately before it. The first
+   * version of the count-up divided by the duration without clamping, so a
+   * negative elapsed fraction produced a negative eased value and the
+   * reading rendered as a negative number of bits for one frame. A browser
+   * test caught it showing -0.0189.
+   */
+  const eased = (elapsed: number, duration: number): number => {
+    const t = Math.max(0, Math.min(1, elapsed / duration));
+    return 1 - Math.pow(1 - t, 4);
+  };
+
+  it("never goes below zero, even when the frame clock runs backwards", () => {
+    expect(eased(-50, 900)).toBe(0);
+    expect(eased(-0.001, 900)).toBe(0);
+  });
+
+  it("never exceeds one", () => {
+    expect(eased(900, 900)).toBe(1);
+    expect(eased(5000, 900)).toBe(1);
+  });
+
+  it("rises monotonically across the animation", () => {
+    let previous = -1;
+    for (let ms = 0; ms <= 900; ms += 45) {
+      const value = eased(ms, 900);
+      expect(value).toBeGreaterThanOrEqual(previous);
+      previous = value;
+    }
+  });
+});

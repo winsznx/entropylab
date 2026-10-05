@@ -5,8 +5,8 @@ Offline profiling for physical Bitcoin entropy processes before they are trusted
 ## What it is
 
 EntropyLab measures bias and sequential predictability in dice, coin flips, and other discrete
-physical sources, estimates a conservative min-entropy lower bound using four independent
-estimators, and reports which one is limiting.
+physical sources, estimates a conservative min-entropy lower bound using four estimator families, and reports
+which one is limiting.
 
 EntropyLab profiles the entropy-generation **process**. It does not:
 
@@ -74,9 +74,11 @@ yet.
 | Static deployment                            | Live on Cloudflare, published manually                                      |
 | Physical dice import pipeline                | Implemented, awaiting real rolls                                            |
 | Real physical dice dataset                   | Not collected                                                               |
+| Social metadata and card                     | Implemented                                                                 |
+| Calibration onboarding and protocol UX       | Implemented                                                                 |
 | Demo video                                   | Not recorded                                                                |
 
-151 unit tests and 22 browser tests pass. CI runs formatting, typecheck, both suites, a build, and
+159 unit tests and 22 browser tests pass. CI runs formatting, typecheck, both suites, a build, and
 checks that the published campaign results still match a fresh run.
 
 ## Results
@@ -157,8 +159,8 @@ working; there is a browser test that asserts exactly that.
 ## Run the checks
 
 ```bash
-pnpm test        # 147 unit tests
-pnpm test:e2e    # 17 browser tests, builds the app first
+pnpm test        # 159 unit tests
+pnpm test:e2e    # 22 browser tests, builds the app first
 pnpm typecheck
 pnpm campaign    # regenerates docs/proof-campaign from code
 pnpm benchmark   # regenerates docs/BENCHMARKS.md from code
