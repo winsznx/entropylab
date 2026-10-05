@@ -32,6 +32,13 @@
 - Static deployment to GitHub Pages, with a guard against off-origin references.
 - Demo script and draft release notes.
 
+- Calibration onboarding: the collection protocol is stated on the define and capture screens.
+- Session progress against the protocol, with the estimator gates shown as thresholds.
+- Dataset provenance throughout the interface and the report.
+- One canonical analysis shared by the screen and the exported report.
+- Method authority shown beside every estimator result.
+- Social metadata and a card generated from the running application.
+
 ### Notes
 
 - Repository initialized for BOSS Battle 2026.

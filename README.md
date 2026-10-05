@@ -20,6 +20,8 @@ EntropyLab profiles the entropy-generation **process**. It does not:
 
 **[entropylab.timjosh507.workers.dev](https://entropylab.timjosh507.workers.dev/)**
 
+![EntropyLab recording a physical calibration against the protocol](./docs/images/capture.png)
+
 Open it, pick the periodic balanced dataset, and the argument is on screen in about ten seconds.
 Then turn your network off and reload: it keeps working, because the analysis was never running
 anywhere else.
@@ -78,7 +80,7 @@ yet.
 | Calibration onboarding and protocol UX       | Implemented                                                                 |
 | Demo video                                   | Not recorded                                                                |
 
-159 unit tests and 22 browser tests pass. CI runs formatting, typecheck, both suites, a build, and
+167 unit tests and 42 browser tests pass. CI runs formatting, typecheck, both suites, a build, and
 checks that the published campaign results still match a fresh run.
 
 ## Results
@@ -159,8 +161,8 @@ working; there is a browser test that asserts exactly that.
 ## Run the checks
 
 ```bash
-pnpm test        # 159 unit tests
-pnpm test:e2e    # 22 browser tests, builds the app first
+pnpm test        # 167 unit tests
+pnpm test:e2e    # 42 browser tests, builds the app first
 pnpm typecheck
 pnpm campaign    # regenerates docs/proof-campaign from code
 pnpm benchmark   # regenerates docs/BENCHMARKS.md from code
