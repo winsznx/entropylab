@@ -5,8 +5,14 @@ Offline profiling for physical Bitcoin entropy processes before they are trusted
 ## What it is
 
 EntropyLab measures bias and sequential predictability in dice, coin flips, and other discrete
-physical sources, estimates a conservative min-entropy lower bound using four estimator families, and reports
-which one is limiting.
+physical sources. Four estimator families each return a lower bound on min-entropy under their own
+model of how a source could be predicted; EntropyLab reports the lowest of them and names the method
+that produced it.
+
+Two of those four are not the published SP 800-90B algorithm for a six-symbol alphabet: one is
+adapted and one is a generalisation. Which is which, and what each figure does and does not support,
+is set out in [Methodology boundaries](./docs/METHODOLOGY.md#methodology-boundaries) and in the
+application itself.
 
 EntropyLab profiles the entropy-generation **process**. It does not:
 
