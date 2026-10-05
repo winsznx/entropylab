@@ -18,7 +18,7 @@ EntropyLab profiles the entropy-generation **process**. It does not:
 
 ## Demo
 
-**[winsznx.github.io/entropylab](https://winsznx.github.io/entropylab/)**
+**[entropylab.timjosh507.workers.dev](https://entropylab.timjosh507.workers.dev/)**
 
 Open it, pick the periodic balanced dataset, and the argument is on screen in about ten seconds.
 Then turn your network off and reload: it keeps working, because the analysis was never running
@@ -71,7 +71,7 @@ yet.
 | Local persistence and report export          | Implemented                                                                 |
 | Integrator API and example                   | Implemented                                                                 |
 | Privacy audit                                | Implemented                                                                 |
-| Static deployment                            | Live                                                                        |
+| Static deployment                            | Live on Cloudflare                                                          |
 | Physical dice import pipeline                | Implemented, awaiting real rolls                                            |
 | Real physical dice dataset                   | Not collected                                                               |
 | Demo video                                   | Not recorded                                                                |

@@ -1,8 +1,8 @@
 name: Deploy
 
-# Distribution only. The deployed application is the same static build that
-# runs from a local checkout: no backend, no analytics, no runtime API. Once
-# loaded it continues to work with the network off.
+# Distribution only, to Cloudflare. The deployed application is the same static
+# build that runs from a local checkout: no backend, no analytics, no runtime
+# API. Once loaded it continues to work with the network off.
 
 on:
   push:
@@ -11,11 +11,9 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: deploy
   cancel-in-progress: true
 
 jobs:
@@ -54,16 +52,11 @@ jobs:
           fi
           echo "No unexpected external references"
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Publish to Cloudflare
+        if: github.ref == 'refs/heads/main'
+        uses: cloudflare/wrangler-action@v3
         with:
-          path: apps/web/dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/web
+          command: deploy

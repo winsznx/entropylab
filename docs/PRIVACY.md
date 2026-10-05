@@ -31,6 +31,9 @@ rather than asserted; the browser checks are in
 | Downloads are user-initiated      | Browser test counting download events across the export screen                                                        | Zero until the button is pressed                                                         |
 | No field asks for secret material | Browser test reading every input placeholder, label and id on all seven screens                                       | No field mentions a mnemonic, seed phrase, private key, xprv or passphrase               |
 
+Served as static files from Cloudflare, with no Worker script: there is no
+backend to send anything to.
+
 Two external links exist, both on the "How it was tested" screen and both
 labelled as reaching the internet: the methodology document and the test
 campaign, on GitHub. They are followed only if you click them.
