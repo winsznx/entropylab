@@ -29,7 +29,7 @@
 - Integrator example and integration guide.
 - Physical campaign protocol, with the invalid-roll rule declared in advance.
 - Privacy audit performed against the production build.
-- Static deployment to GitHub Pages, with a guard against off-origin references.
+- Static deployment to Cloudflare, with a guard against off-origin references.
 - Demo script and draft release notes.
 
 - Calibration onboarding: the collection protocol is stated on the define and capture screens.
