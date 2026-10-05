@@ -8,9 +8,9 @@ export function Profiles({ navigate }: { navigate: (route: Route) => void }): JS
 
   return (
     <>
-      <div className="sheet__title">
+      <div className="panel__head">
         <h1>Saved data</h1>
-        <span className="sheet__note">this browser only</span>
+        <span className="panel__note">this browser only</span>
       </div>
       <p style={{ marginBottom: 28 }}>
         Profiles and calibration sessions are stored in this browser. They are not synced, not
@@ -24,8 +24,8 @@ export function Profiles({ navigate }: { navigate: (route: Route) => void }): JS
         </div>
       ) : null}
 
-      <section className="sheet">
-        <div className="sheet__title">
+      <section className="panel">
+        <div className="panel__head">
           <h2>Private session</h2>
         </div>
         <div className="field" style={{ marginBottom: 0 }}>
@@ -47,30 +47,30 @@ export function Profiles({ navigate }: { navigate: (route: Route) => void }): JS
         </div>
       </section>
 
-      <section className="sheet">
-        <div className="sheet__title">
+      <section className="panel">
+        <div className="panel__head">
           <h2>Profiles</h2>
-          <span className="sheet__note">{store.savedProfiles.length} stored</span>
+          <span className="panel__note">{store.savedProfiles.length} stored</span>
         </div>
         {store.savedProfiles.length === 0 ? (
           <p className="field__hint" style={{ margin: 0 }}>
             Nothing saved yet. Finish a calibration and save it from the export screen.
           </p>
         ) : (
-          <div className="saved-list">
+          <div className="datasets">
             {store.savedProfiles.map((profile) => {
               const sessions = store.savedSessions.filter((s) => s.profileId === profile.id);
               return (
-                <div className="saved" key={profile.id}>
-                  <span className="saved__name">{profile.name || "Untitled"}</span>
-                  <span className="saved__meta">
+                <div className="dataset" key={profile.id}>
+                  <span className="dataset__name">{profile.name || "Untitled"}</span>
+                  <span className="dataset__defect">
                     {sessions.length} session{sessions.length === 1 ? "" : "s"} ·{" "}
                     {sessions[0]?.observations.length ?? 0} observations
                   </span>
-                  <span className="saved__actions">
+                  <span className="dataset__go">
                     <button
                       type="button"
-                      className="button button--secondary button--small"
+                      className="btn btn--secondary btn--sm"
                       onClick={async () => {
                         await store.loadProfile(profile.id);
                         navigate("analysis");
@@ -80,7 +80,7 @@ export function Profiles({ navigate }: { navigate: (route: Route) => void }): JS
                     </button>
                     <button
                       type="button"
-                      className="button button--secondary button--small"
+                      className="btn btn--secondary btn--sm"
                       onClick={() => void store.deleteProfile(profile.id)}
                     >
                       Delete
@@ -93,20 +93,20 @@ export function Profiles({ navigate }: { navigate: (route: Route) => void }): JS
         )}
       </section>
 
-      <section className="sheet">
-        <div className="sheet__title">
+      <section className="panel">
+        <div className="panel__head">
           <h2>Remove everything</h2>
         </div>
         <p>
           Deletes every profile and session EntropyLab has stored in this browser. This cannot be
           undone.
         </p>
-        <div className="button-row">
+        <div className="btn-row">
           {confirmingWipe ? (
             <>
               <button
                 type="button"
-                className="button"
+                className="btn"
                 onClick={async () => {
                   await store.forgetEverything();
                   setConfirmingWipe(false);
@@ -116,7 +116,7 @@ export function Profiles({ navigate }: { navigate: (route: Route) => void }): JS
               </button>
               <button
                 type="button"
-                className="button button--secondary"
+                className="btn btn--secondary"
                 onClick={() => setConfirmingWipe(false)}
               >
                 Cancel
@@ -125,7 +125,7 @@ export function Profiles({ navigate }: { navigate: (route: Route) => void }): JS
           ) : (
             <button
               type="button"
-              className="button button--secondary"
+              className="btn btn--secondary"
               onClick={() => setConfirmingWipe(true)}
             >
               Delete all saved data

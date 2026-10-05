@@ -1,22 +1,27 @@
+import { useEffect, useRef, useState } from "react";
 import type { EntropyAnalysis } from "@entropylab/core";
 
 interface Props {
   analysis: EntropyAnalysis;
   caption?: string;
+  /** Suppresses the count-up where the figure is secondary to its surroundings. */
+  still?: boolean;
 }
 
 /**
  * The measurement scale: the product's argument rendered as an instrument.
  *
- * One axis runs from zero to the ideal rate for the alphabet. Each estimator
- * that produced a figure is a tick on it, and the governing value is a hard
- * stop. Everything to the right of that stop is hatched rather than filled,
- * because it is territory some method claimed and another method contradicted.
+ * One axis from zero to the ideal rate for the alphabet. Each estimator that
+ * produced a figure is a tick on it, the governing value is a hard stop, and
+ * the territory past that stop is hatched rather than filled, because it is
+ * ground one method claimed and another contradicted.
  *
- * On a periodic source the picture carries the whole point on its own: a tick
- * sits at 2.48 near the right edge, and the governing mark reads zero.
+ * This carries the only choreographed motion in the product: the supported
+ * region sweeps out while the figure counts up to meet it, then the ticks
+ * fade in. It is here and nowhere else because this is the moment the reading
+ * is delivered, and a needle settling is what an instrument does.
  */
-export function Scale({ analysis, caption }: Props): JSX.Element {
+export function Scale({ analysis, caption, still = false }: Props): JSX.Element {
   const ideal = analysis.idealBitsPerSymbol;
   const conservative = analysis.conservativeBitsPerSymbol;
   const percent = (value: number): number => Math.max(0, Math.min(100, (value / ideal) * 100));
@@ -31,12 +36,10 @@ export function Scale({ analysis, caption }: Props): JSX.Element {
     }))
     .sort((a, b) => a.value - b.value);
 
-  const supportedWidth = conservative === undefined ? 0 : percent(conservative);
-
-  // Estimators that land close together would overprint their labels, which
-  // happens exactly when the result is most interesting: a collapsed source
-  // puts several methods near zero. Close ticks are dropped to a second row
-  // rather than shortened, so no figure is lost.
+  // Ticks that land close together would overprint their labels, which happens
+  // exactly when the result is most interesting: a collapsed source puts
+  // several methods near zero. Close ticks drop to a second row rather than
+  // being dropped or shortened, so no figure is lost.
   const MIN_SEPARATION = 7;
   let lastLabelled = -Infinity;
   const placed = ticks.map((tick) => {
@@ -46,37 +49,38 @@ export function Scale({ analysis, caption }: Props): JSX.Element {
     return { ...tick, position, stacked };
   });
 
+  const supportedWidth = conservative === undefined ? 0 : percent(conservative);
+  const shown = useCountUp(conservative, still);
+
   return (
-    <div className="scale">
-      <div className="scale__head">
+    <div>
+      <div className="reading-head">
         <div>
           {conservative === undefined ? (
-            <div className="scale__value">
-              no result
-              <span className="scale__unit">no method could run</span>
-            </div>
+            <>
+              <span className="figure figure--absent">no reading</span>
+              <span className="figure-unit">no method could run on this sample</span>
+            </>
           ) : (
-            <div
-              className={`scale__value${conservative < 0.01 ? " scale__value--zero" : ""}`}
-              aria-describedby="scale-desc"
-            >
-              {conservative.toFixed(4)}
-              <span className="scale__unit">bits per observation</span>
-            </div>
+            <>
+              <span className={`figure${conservative < 0.005 ? " figure--collapsed" : ""}`}>
+                {shown.toFixed(4)}
+              </span>
+              <span className="figure-unit">bits per observation, conservative estimate</span>
+            </>
           )}
         </div>
-        <div className="scale__limit">
+        <div className="ceiling">
           ideal for {analysis.alphabetSize} outcomes
-          <br />
           <strong>{ideal.toFixed(4)}</strong>
         </div>
       </div>
 
-      <div className="scale__track">
+      <div className="scale">
         <div className="scale__inner">
           <div className="scale__bed">
             <div className="scale__supported" style={{ width: `${supportedWidth}%` }} />
-            <div className="scale__unsupported" style={{ left: `${supportedWidth}%`, right: 0 }} />
+            <div className="scale__contradicted" style={{ left: `${supportedWidth}%`, right: 0 }} />
           </div>
 
           {placed.map((tick) => (
@@ -105,14 +109,50 @@ export function Scale({ analysis, caption }: Props): JSX.Element {
         </div>
       </div>
 
-      <p className="scale__caption" id="scale-desc">
+      <p className="scale__caption">
         {caption ??
           (conservative === undefined
-            ? "No estimator could run on this sample, so no rate is reported. That is a statement about the sample, not the source."
-            : ticks.length > 1
-              ? `${ticks.length} methods ran and returned figures from ${ticks[0]?.value.toFixed(2)} to ${ticks[ticks.length - 1]?.value.toFixed(2)}. The lowest governs; the hatched region is what the other methods claimed and this one contradicts.`
+            ? "No estimator could run on this sample, so no rate is reported. That is a statement about the sample, not about the source."
+            : placed.length > 1
+              ? `${placed.length} methods ran and returned figures from ${placed[0]?.value.toFixed(2)} to ${placed[placed.length - 1]?.value.toFixed(2)}. The lowest governs; the hatched region is what the other methods claimed and this one contradicts.`
               : "One method ran. The hatched region is untested rather than ruled out.")}
       </p>
     </div>
   );
+}
+
+/**
+ * Counts a figure up to its value over the same duration the bar sweeps.
+ *
+ * Eased to match the bar rather than run linearly, so the number and the bar
+ * arrive together. Honours reduced motion by showing the value immediately:
+ * a count-up is decorative movement, and the person has asked for none.
+ */
+function useCountUp(target: number | undefined, still: boolean): number {
+  const [value, setValue] = useState(target ?? 0);
+  const frame = useRef(0);
+
+  useEffect(() => {
+    if (target === undefined) return undefined;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || still) {
+      setValue(target);
+      return undefined;
+    }
+
+    const duration = 900;
+    const start = performance.now();
+    const tick = (now: number): void => {
+      const t = Math.min(1, (now - start) / duration);
+      // Matches --ease-instrument, so the digits settle with the bar.
+      const eased = 1 - Math.pow(1 - t, 4);
+      setValue(target * eased);
+      if (t < 1) frame.current = requestAnimationFrame(tick);
+    };
+    frame.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame.current);
+  }, [target, still]);
+
+  return target === undefined ? 0 : value;
 }

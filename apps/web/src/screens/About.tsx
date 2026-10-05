@@ -1,7 +1,7 @@
 export function About(): JSX.Element {
   return (
     <>
-      <div className="sheet__title">
+      <div className="panel__head">
         <h1>How EntropyLab was tested</h1>
       </div>
       <p style={{ marginBottom: 28 }}>
@@ -10,8 +10,8 @@ export function About(): JSX.Element {
         implementation of the standard they come from.
       </p>
 
-      <section className="sheet">
-        <div className="sheet__title">
+      <section className="panel">
+        <div className="panel__head">
           <h2>What the methods are</h2>
         </div>
         <p>
@@ -23,7 +23,7 @@ export function About(): JSX.Element {
           Which is which matters, and the methodology document separates them rather than presenting
           them in one voice.
         </p>
-        <ul className="warning-list">
+        <ul className="list">
           <li>
             <strong>Most common value</strong> and <strong>lag predictor</strong>: used directly,
             and they agree with the NIST reference implementation to ten decimal places on every
@@ -41,8 +41,8 @@ export function About(): JSX.Element {
         </ul>
       </section>
 
-      <section className="sheet">
-        <div className="sheet__title">
+      <section className="panel">
+        <div className="panel__head">
           <h2>What this is not</h2>
         </div>
         <p>
@@ -57,17 +57,17 @@ export function About(): JSX.Element {
         </p>
       </section>
 
-      <section className="sheet">
-        <div className="sheet__title">
+      <section className="panel">
+        <div className="panel__head">
           <h2>Read further</h2>
         </div>
         <p>
           The full methodology, the fixture definitions, the reference comparison and the
           limitations are in the repository.
         </p>
-        <div className="button-row">
+        <div className="btn-row">
           <a
-            className="button button--secondary"
+            className="btn btn--secondary"
             href="https://github.com/winsznx/entropylab/blob/main/docs/METHODOLOGY.md"
             target="_blank"
             rel="noreferrer"
@@ -75,7 +75,7 @@ export function About(): JSX.Element {
             Methodology
           </a>
           <a
-            className="button button--secondary"
+            className="btn btn--secondary"
             href="https://github.com/winsznx/entropylab/tree/main/docs/proof-campaign"
             target="_blank"
             rel="noreferrer"

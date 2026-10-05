@@ -19,7 +19,8 @@
     "campaign:physical": "tsx scripts/run-physical-campaign.ts",
     "build:web": "pnpm --filter @entropylab/web build",
     "test:e2e": "playwright test",
-    "benchmark": "tsx scripts/run-benchmarks.ts"
+    "benchmark": "tsx scripts/run-benchmarks.ts",
+    "deploy:web": "pnpm build:web && pnpm --filter @entropylab/web deploy"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",

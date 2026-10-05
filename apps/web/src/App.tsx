@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { useRoute } from "./routing.js";
+import { useRoute, type Route } from "./routing.js";
 import { StoreProvider, useStore } from "./state/store.js";
 import { StepRail } from "./components/StepRail.js";
+import { ThemeToggle } from "./components/ThemeToggle.js";
+import { Icon } from "./components/Icon.js";
 import { Home } from "./screens/Home.js";
 import { Define } from "./screens/Define.js";
 import { Capture } from "./screens/Capture.js";
@@ -10,42 +12,70 @@ import { Export } from "./screens/Export.js";
 import { Profiles } from "./screens/Profiles.js";
 import { About } from "./screens/About.js";
 
+const FLOW: Route[] = ["define", "capture", "analysis", "export"];
+
 function Shell(): JSX.Element {
   const [route, navigate] = useRoute();
   const store = useStore();
   const online = useOnlineStatus();
-
-  const inFlow =
-    route === "define" || route === "capture" || route === "analysis" || route === "export";
+  const inFlow = FLOW.includes(route);
 
   return (
     <div className="shell">
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+
       <header className="masthead">
         <button type="button" className="masthead__mark" onClick={() => navigate("home")}>
+          <Icon name="dice" size={18} />
           EntropyLab
         </button>
-        <nav className="button-row" aria-label="Sections">
-          <button type="button" className="button button--quiet" onClick={() => navigate("define")}>
+
+        <nav className="masthead__nav" aria-label="Sections">
+          <button
+            type="button"
+            className="navlink"
+            aria-current={inFlow ? "page" : undefined}
+            onClick={() => navigate("define")}
+          >
             New calibration
           </button>
           <button
             type="button"
-            className="button button--quiet"
+            className="navlink"
+            aria-current={route === "profiles" ? "page" : undefined}
             onClick={() => navigate("profiles")}
           >
             Saved data
           </button>
-          <button type="button" className="button button--quiet" onClick={() => navigate("about")}>
+          <button
+            type="button"
+            className="navlink"
+            aria-current={route === "about" ? "page" : undefined}
+            onClick={() => navigate("about")}
+          >
             How it was tested
           </button>
         </nav>
-        <div className="masthead__status" title="Analysis runs in this page. Nothing is uploaded.">
-          <span className={`masthead__dot${online ? "" : " masthead__dot--offline"}`} />
-          {online ? "local only" : "offline, still working"}
-        </div>
+
+        <div className="masthead__spacer" />
+        <ThemeToggle />
+        <span
+          className={`status-chip${online ? "" : " status-chip--offline"}`}
+          title="Analysis runs in this page. Nothing is uploaded."
+        >
+          <span className="status-chip__dot" />
+          <span className="status-chip__text">
+            {online ? "local only" : "offline, still working"}
+          </span>
+          <span className="visually-hidden">
+            {online ? "Analysis is local only" : "Offline, and still working"}
+          </span>
+        </span>
       </header>
 
-      <main className="page">
+      <main id="main" className={route === "home" ? "page page--wide" : "page"}>
         {inFlow ? (
           <StepRail
             current={route}
@@ -75,9 +105,9 @@ function Shell(): JSX.Element {
 }
 
 /**
- * Reports connectivity so the interface can show that it keeps working without
- * it. The application makes no network requests either way; this is a claim the
- * user can verify by pulling the plug.
+ * Reports connectivity so the interface can show that it keeps working
+ * without it. The application makes no request either way; this is a claim
+ * the reader can check by pulling the plug.
  */
 function useOnlineStatus(): boolean {
   const [online, setOnline] = useState(() =>

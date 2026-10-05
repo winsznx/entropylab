@@ -66,7 +66,7 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
     return (
       <div className="notice notice--info">
         Define a process first so the recorded outcomes have an alphabet.{" "}
-        <button type="button" className="button button--quiet" onClick={() => navigate("define")}>
+        <button type="button" className="btn btn--ghost" onClick={() => navigate("define")}>
           Define a process
         </button>
       </div>
@@ -106,9 +106,9 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
 
   return (
     <>
-      <div className="sheet__title">
+      <div className="panel__head">
         <h1>Calibrate</h1>
-        <span className="sheet__note">{profile.name}</span>
+        <span className="panel__note">{profile.name}</span>
       </div>
       <p style={{ marginBottom: 28 }}>
         Record the outcomes in the order they happen. Include every roll, even the ones that feel
@@ -123,10 +123,10 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
         </div>
       ) : null}
 
-      <section className="sheet">
-        <div className="sheet__title">
+      <section className="panel">
+        <div className="panel__head">
           <h2>Enter by keyboard</h2>
-          <span className="sheet__note">press {labels.join(", ")} · backspace undoes</span>
+          <span className="panel__note">press {labels.join(", ")} · backspace undoes</span>
         </div>
 
         <div className="keypad">
@@ -134,7 +134,7 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
             <button
               type="button"
               key={label}
-              className="keypad__key"
+              className="key"
               onClick={() => store.appendObservation(symbol)}
               aria-label={`Record outcome ${label}`}
             >
@@ -160,7 +160,7 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
               </span>
               <button
                 type="button"
-                className="button button--small"
+                className="btn btn--sm"
                 style={typingInField ? undefined : { visibility: "hidden" }}
                 tabIndex={typingInField ? undefined : -1}
                 aria-hidden={typingInField ? undefined : true}
@@ -169,10 +169,10 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
                 Resume key capture
               </button>
             </div>
-            <div className="button-row" style={{ marginTop: 16 }}>
+            <div className="btn-row" style={{ marginTop: 16 }}>
               <button
                 type="button"
-                className="button button--secondary button--small"
+                className="btn btn--secondary btn--sm"
                 onClick={() => store.undoObservation()}
                 disabled={observations.length === 0}
               >
@@ -180,7 +180,7 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
               </button>
               <button
                 type="button"
-                className="button button--secondary button--small"
+                className="btn btn--secondary btn--sm"
                 onClick={() => store.clearObservations()}
                 disabled={observations.length === 0}
               >
@@ -209,14 +209,15 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
         </div>
       </section>
 
-      <section className="sheet">
-        <div className="sheet__title">
+      <section className="panel">
+        <div className="panel__head">
           <h2>Paste or import</h2>
-          <span className="sheet__note">stays on this device</span>
+          <span className="panel__note">stays on this device</span>
         </div>
         <div className="field">
           <label htmlFor="paste">Paste recorded outcomes</label>
           <textarea
+            className="textarea"
             id="paste"
             rows={5}
             value={pasted}
@@ -224,16 +225,16 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
             onChange={(e) => setPasted(e.target.value)}
           />
         </div>
-        <div className="button-row">
+        <div className="btn-row">
           <button
             type="button"
-            className="button button--secondary"
+            className="btn btn--secondary"
             disabled={pasted.trim() === ""}
             onClick={() => ingest(pasted, "pasted text")}
           >
             Read pasted text
           </button>
-          <label className="button button--secondary" style={{ cursor: "pointer" }}>
+          <label className="btn btn--secondary" style={{ cursor: "pointer" }}>
             Import a file
             <input
               type="file"
@@ -253,7 +254,7 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
         {issues.length > 0 ? (
           <div className="notice notice--warn" style={{ marginTop: 16 }}>
             <strong>{issues.length} value(s) could not be read and were left out.</strong>
-            <ul className="warning-list" style={{ marginTop: 8 }}>
+            <ul className="list" style={{ marginTop: 8 }}>
               {issues.slice(0, 6).map((issue, i) => (
                 <li key={i}>
                   line {issue.line}: {JSON.stringify(issue.token)}
@@ -265,10 +266,10 @@ export function Capture({ navigate }: { navigate: (route: Route) => void }): JSX
         ) : null}
       </section>
 
-      <div className="button-row">
+      <div className="btn-row">
         <button
           type="button"
-          className="button"
+          className="btn"
           disabled={observations.length === 0}
           onClick={() => navigate("analysis")}
         >

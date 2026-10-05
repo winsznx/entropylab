@@ -9,6 +9,18 @@
       content="Offline profiling for physical Bitcoin entropy processes before they are trusted with a seed."
     />
     <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#e9ecf0" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f1216" />
+    <script>
+      (function () {
+        try {
+          var c = localStorage.getItem("entropylab:theme") || "system";
+          var d =
+            c === "dark" || (c === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.setAttribute("data-theme", d ? "dark" : "light");
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

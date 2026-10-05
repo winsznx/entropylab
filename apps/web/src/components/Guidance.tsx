@@ -9,7 +9,7 @@ export function Findings({ explanation }: { explanation: Explanation }): JSX.Ele
           <p className="finding__detail">{finding.detail}</p>
           <div className="finding__evidence">
             {finding.evidence.map((id) => (
-              <span className="tag" key={id}>
+              <span className="chip" key={id}>
                 {id}
               </span>
             ))}
@@ -22,9 +22,9 @@ export function Findings({ explanation }: { explanation: Explanation }): JSX.Ele
 
 export function Recommendation({ explanation }: { explanation: Explanation }): JSX.Element {
   return (
-    <div className={`recommend recommend--${explanation.recommendation}`}>
-      <div className="recommend__text">{explanation.recommendationText}</div>
-      <p className="recommend__reason">{explanation.recommendationReason}</p>
+    <div className={`verdict verdict--${explanation.recommendation}`}>
+      <div className="verdict__text">{explanation.recommendationText}</div>
+      <p className="verdict__reason">{explanation.recommendationReason}</p>
     </div>
   );
 }
@@ -73,7 +73,7 @@ export function TargetGuidance({
               <td>
                 {guidance.targetBits} bits
                 {guidance.targetBits === targetBits ? (
-                  <span className="tag tag--governing" style={{ marginLeft: 8 }}>
+                  <span className="chip chip--governing" style={{ marginLeft: 8 }}>
                     your target
                   </span>
                 ) : null}
@@ -101,7 +101,7 @@ export function Warnings({ analysis }: { analysis: EntropyAnalysis }): JSX.Eleme
   if (analysis.warnings.length === 0 && perEstimator.length === 0) return null;
 
   return (
-    <ul className="warning-list">
+    <ul className="list">
       {analysis.warnings.map((warning) => (
         <li key={warning}>{warning}</li>
       ))}

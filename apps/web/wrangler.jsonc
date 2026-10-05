@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "entropylab",
+  "compatibility_date": "2026-09-01",
+
+  // Static assets only. There is no Worker script: EntropyLab has no backend,
+  // and adding one would mean calibration data could leave the device.
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application",
+  },
+}

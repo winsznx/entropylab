@@ -40,7 +40,7 @@ export function Export({ navigate }: { navigate: (route: Route) => void }): JSX.
     return (
       <div className="notice notice--info">
         There is no analysis to export yet.{" "}
-        <button type="button" className="button button--quiet" onClick={() => navigate("capture")}>
+        <button type="button" className="btn btn--ghost" onClick={() => navigate("capture")}>
           Record some observations
         </button>
       </div>
@@ -65,9 +65,9 @@ export function Export({ navigate }: { navigate: (route: Route) => void }): JSX.
 
   return (
     <>
-      <div className="sheet__title">
+      <div className="panel__head">
         <h1>Export</h1>
-        <span className="sheet__note">files are built in this page</span>
+        <span className="panel__note">files are built in this page</span>
       </div>
       <p style={{ marginBottom: 28 }}>
         The report carries the profile, the dataset hash, the algorithm version, every estimator
@@ -75,21 +75,21 @@ export function Export({ navigate }: { navigate: (route: Route) => void }): JSX.
         the figure. That is enough for someone else to re-derive it.
       </p>
 
-      <section className="sheet">
-        <div className="sheet__title">
+      <section className="panel">
+        <div className="panel__head">
           <h2>Download</h2>
         </div>
-        <div className="button-row">
+        <div className="btn-row">
           <button
             type="button"
-            className="button"
+            className="btn"
             onClick={() => download(json, `${stem}-report.json`, "application/json")}
           >
             Download JSON
           </button>
           <button
             type="button"
-            className="button button--secondary"
+            className="btn btn--secondary"
             onClick={() => download(markdown, `${stem}-report.md`, "text/markdown")}
           >
             Download Markdown
@@ -116,10 +116,10 @@ export function Export({ navigate }: { navigate: (route: Route) => void }): JSX.
         </div>
       </section>
 
-      <section className="sheet">
-        <div className="sheet__title">
+      <section className="panel">
+        <div className="panel__head">
           <h2>Keep this profile</h2>
-          <span className="sheet__note">
+          <span className="panel__note">
             {store.privateSession
               ? "private session, nothing is saved"
               : store.storageAvailable
@@ -131,10 +131,10 @@ export function Export({ navigate }: { navigate: (route: Route) => void }): JSX.
           Saving keeps the profile and this calibration session in this browser so you can compare a
           second session against it later. It never leaves the device.
         </p>
-        <div className="button-row">
+        <div className="btn-row">
           <button
             type="button"
-            className="button button--secondary"
+            className="btn btn--secondary"
             disabled={store.privateSession || !store.storageAvailable}
             onClick={async () => {
               await store.saveCurrent();
@@ -152,8 +152,8 @@ export function Export({ navigate }: { navigate: (route: Route) => void }): JSX.
         </div>
       </section>
 
-      <section className="sheet">
-        <div className="sheet__title">
+      <section className="panel">
+        <div className="panel__head">
           <h2>Report preview</h2>
         </div>
         <div className="tape" style={{ maxHeight: 320 }}>

@@ -56,7 +56,7 @@ export function TransitionMatrix({
           ))}
         </tbody>
       </table>
-      <p className="field__hint">
+      <p className="t-micro">
         Rows are the current outcome, columns the one that followed. A balanced process spreads
         evenly; a bright diagonal means outcomes repeat themselves.
       </p>

@@ -43,7 +43,7 @@ export function Define({ navigate }: { navigate: (route: Route) => void }): JSX.
 
   return (
     <>
-      <div className="sheet__title">
+      <div className="panel__head">
         <h1>Define the process</h1>
       </div>
       <p style={{ marginBottom: 28 }}>
@@ -51,10 +51,11 @@ export function Define({ navigate }: { navigate: (route: Route) => void }): JSX.
         report, so a reader months from now can tell which die and which method produced the result.
       </p>
 
-      <section className="sheet">
+      <section className="panel">
         <div className="field">
           <label htmlFor="profile-name">Name</label>
           <input
+            className="input"
             id="profile-name"
             type="text"
             value={draft.name}
@@ -87,6 +88,7 @@ export function Define({ navigate }: { navigate: (route: Route) => void }): JSX.
           <div className="field">
             <label htmlFor="alphabet-size">How many possible outcomes</label>
             <input
+              className="input"
               id="alphabet-size"
               type="number"
               min={2}
@@ -111,6 +113,7 @@ export function Define({ navigate }: { navigate: (route: Route) => void }): JSX.
         <div className="field">
           <label htmlFor="collection">How you collect</label>
           <input
+            className="input"
             id="collection"
             type="text"
             value={draft.collectionMethod}
@@ -154,6 +157,7 @@ export function Define({ navigate }: { navigate: (route: Route) => void }): JSX.
           </div>
           {customTarget ? (
             <input
+              className="input"
               type="number"
               min={1}
               max={4096}
@@ -168,6 +172,7 @@ export function Define({ navigate }: { navigate: (route: Route) => void }): JSX.
         <div className="field">
           <label htmlFor="notes">Notes</label>
           <textarea
+            className="textarea"
             id="notes"
             rows={3}
             value={draft.notes}
@@ -177,10 +182,10 @@ export function Define({ navigate }: { navigate: (route: Route) => void }): JSX.
         </div>
       </section>
 
-      <div className="button-row">
+      <div className="btn-row">
         <button
           type="button"
-          className="button"
+          className="btn"
           disabled={!canContinue}
           onClick={() => {
             store.setProfile(draft);

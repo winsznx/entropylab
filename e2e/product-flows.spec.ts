@@ -23,7 +23,7 @@ test.describe("the demonstration on the home screen", () => {
     // and matches the published campaign value for the same dataset.
     await expect(page.getByText("2.4815")).toBeVisible();
     // The governing figure for a fully deterministic sequence.
-    await expect(page.locator(".scale__value").first()).toContainText("0.0000");
+    await expect(page.locator(".figure").first()).toContainText("0.0000");
   });
 
   test("states the safety rule without being asked", async ({ page }) => {
@@ -37,7 +37,7 @@ test.describe("fixtures through the product", () => {
   test("periodic balanced collapses and recommends changing the procedure", async ({ page }) => {
     await openDemo(page, "Periodic balanced d6");
 
-    await expect(page.locator(".scale__value")).toContainText("0.0000");
+    await expect(page.locator(".figure")).toContainText("0.0000");
     await expect(
       page.getByText("The counts look balanced, but the order is predictable."),
     ).toBeVisible();
@@ -51,7 +51,7 @@ test.describe("fixtures through the product", () => {
     await expect(row).toContainText("2.4815");
 
     // And the governing method must be named.
-    await expect(page.locator(".table__row--governing")).toContainText("Lag predictor");
+    await expect(page.locator('tr[data-governing="true"]')).toContainText("Lag predictor");
   });
 
   test("biased points at the die rather than the procedure", async ({ page }) => {
@@ -67,7 +67,7 @@ test.describe("fixtures through the product", () => {
   test("sticky source names repetition of the previous face", async ({ page }) => {
     await openDemo(page, "Sticky d6");
     await expect(page.getByText(/not tumbling/)).toBeVisible();
-    await expect(page.locator(".scale__value")).toContainText("0.4765");
+    await expect(page.locator(".figure")).toContainText("0.4765");
   });
 
   test("low sample declines methods instead of inventing confidence", async ({ page }) => {
@@ -79,7 +79,7 @@ test.describe("fixtures through the product", () => {
     ).toBeVisible();
 
     // Both sequential methods must be visibly declined, not hidden.
-    const declined = page.locator(".table__row--declined");
+    const declined = page.locator('tr[data-declined="true"]');
     await expect(declined).toHaveCount(2);
     await expect(page.locator("tr", { hasText: "Markov" })).toContainText("declined");
   });
@@ -222,11 +222,11 @@ test.describe("offline", () => {
     await expect(
       page.getByRole("heading", { name: "Measure the process before it holds your seed." }),
     ).toBeVisible();
-    await expect(page.locator(".masthead__status")).toContainText("offline");
+    await expect(page.locator(".status-chip")).toContainText("offline");
 
     // The whole analysis path must still work.
     await page.getByRole("button", { name: "Periodic balanced d6" }).click();
-    await expect(page.locator(".scale__value")).toContainText("0.0000");
+    await expect(page.locator(".figure")).toContainText("0.0000");
     await expect(
       page.getByText("Change how you roll before using this process for a seed."),
     ).toBeVisible();
@@ -253,7 +253,7 @@ test.describe("offline", () => {
     await page.goto("/");
 
     await page.getByRole("button", { name: "Sticky d6" }).click();
-    await expect(page.locator(".scale__value")).toContainText("0.4765");
+    await expect(page.locator(".figure")).toContainText("0.4765");
     await page.getByRole("button", { name: "Export report" }).click();
     await expect(page.getByRole("heading", { name: "Export", level: 1 })).toBeVisible();
 
@@ -277,7 +277,7 @@ test.describe("accessibility basics", () => {
   test("does not rely on colour alone for the governing method", async ({ page }) => {
     await openDemo(page, "Periodic balanced d6");
     // The governing row carries a text tag, not just a background colour.
-    await expect(page.locator(".tag--governing").first()).toHaveText("governing");
+    await expect(page.locator(".chip--governing").first()).toHaveText("governing");
   });
 });
 

@@ -37,7 +37,7 @@ export function Histogram({ sample, labels }: Props): JSX.Element {
           </div>
         );
       })}
-      <p className="field__hint">
+      <p className="t-micro">
         The vertical rule marks the {(expectedShare * 100).toFixed(1)}% each outcome would take from
         a balanced source. A flat histogram says nothing about the order of the rolls.
       </p>

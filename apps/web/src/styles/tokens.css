@@ -1,0 +1,447 @@
+/*
+  EntropyLab design tokens.
+
+  The product is a measuring instrument, so the system is built around one
+  idea: a reading, its uncertainty, and the territory the reading rules out.
+  Colour is never decoration here. A hue means something, and the meanings are
+  fixed in the semantic layer below.
+
+  Two tiers. The --palette-* primitives exist only to feed the --color-*
+  semantics; nothing outside this file should read a primitive. That is what
+  makes the dark theme at the bottom a complete re-mapping rather than a pile
+  of overrides.
+*/
+
+:root {
+  color-scheme: light;
+  accent-color: var(--color-accent);
+
+  /* ---- primitives ------------------------------------------------------ */
+
+  /* Cool grey. The instrument chassis: paper, rules, chrome, disabled text.
+     Kept blue-leaning so it never reads as warm paper stock. */
+  --palette-slate-25: #fafbfc;
+  --palette-slate-50: #f4f6f8;
+  --palette-slate-100: #e9ecf0;
+  --palette-slate-200: #dfe4ea;
+  --palette-slate-300: #c9cfd8;
+  --palette-slate-400: #a4acb9;
+  --palette-slate-500: #8a93a0;
+  --palette-slate-600: #656d7a;
+  --palette-slate-700: #4a515c;
+  --palette-slate-800: #2c323b;
+  --palette-slate-900: #1b2027;
+  --palette-slate-950: #14181d;
+  --palette-slate-990: #0f1216;
+
+  /* Instrument blue. The measured quantity, and only that. Steps 600 and 700
+     carry white text; 500 does not and is used for fills under dark text or
+     for graphics. */
+  --palette-blue-50: #eef2fb;
+  --palette-blue-100: #e0e8f7;
+  --palette-blue-200: #c3d2ee;
+  --palette-blue-300: #94aede;
+  --palette-blue-400: #5c7fc6;
+  --palette-blue-500: #3159ab;
+  --palette-blue-600: #1b3a8f;
+  --palette-blue-700: #163077;
+  --palette-blue-800: #12275f;
+  --palette-blue-900: #0e1e49;
+  --palette-blue-950: #0a1533;
+
+  /* Oxide red. Structure found: the thing the user must act on. Never used
+     for an error in the software sense, which keeps the meaning single. */
+  --palette-oxide-50: #fdf2ef;
+  --palette-oxide-100: #f7e6e2;
+  --palette-oxide-200: #efc9c0;
+  --palette-oxide-300: #e0a294;
+  --palette-oxide-400: #cc6b56;
+  --palette-oxide-500: #b4331f;
+  --palette-oxide-600: #9c2b19;
+  --palette-oxide-700: #7e2314;
+  --palette-oxide-800: #5f1b10;
+  --palette-oxide-900: #45140c;
+
+  /* Verdigris. Headroom: a reading at the top of the scale. Deliberately
+     muted, because "nothing found" must never look like a pass. */
+  --palette-verdigris-50: #eef5f1;
+  --palette-verdigris-100: #e2eee8;
+  --palette-verdigris-200: #c2ddd0;
+  --palette-verdigris-300: #92c2ac;
+  --palette-verdigris-500: #2f6b4f;
+  --palette-verdigris-600: #275a43;
+  --palette-verdigris-700: #1f4835;
+
+  /* Brass. Caution that is about the sample rather than the source: an
+     unstable estimate, a method that declined. Distinct from oxide so
+     "not enough evidence" never reads as "bad die". */
+  --palette-brass-50: #fbf5e9;
+  --palette-brass-100: #f6ecd4;
+  --palette-brass-200: #ead3a0;
+  --palette-brass-500: #8a6914;
+  --palette-brass-600: #73570f;
+  --palette-brass-700: #5c460c;
+
+  /* ---- surfaces -------------------------------------------------------- */
+
+  --color-canvas: var(--palette-slate-100);
+  --color-surface: #ffffff;
+  --color-surface-muted: var(--palette-slate-50);
+  --color-surface-strong: var(--palette-slate-200);
+  --color-shell: var(--palette-slate-100);
+  --color-chrome: rgba(255, 255, 255, 0.86);
+  --color-scrim: rgba(20, 24, 29, 0.45);
+  --color-skeleton: var(--palette-slate-200);
+  --color-selection: var(--palette-blue-100);
+
+  /* ---- borders --------------------------------------------------------- */
+
+  /* border and border-strong are hairlines. border-control outlines inputs
+     and must reach 3:1 against the surface behind it, per WCAG 1.4.11. */
+  --color-border: var(--palette-slate-200);
+  --color-border-strong: var(--palette-slate-300);
+  --color-border-control: #868e9b;
+
+  /* ---- ink ------------------------------------------------------------- */
+
+  --color-ink: var(--palette-slate-950);
+  --color-ink-secondary: #4e5663;
+  --color-ink-muted: #646c79;
+  --color-ink-inverse: #ffffff;
+
+  /* ---- brand and accent ------------------------------------------------ */
+
+  /* Brand is near-black and does primary actions. The accent is the measured
+     quantity and is never spent on a button that merely navigates. */
+  --color-brand: var(--palette-slate-950);
+  --color-brand-strong: #000000;
+  --color-on-brand: #ffffff;
+
+  --color-accent: var(--palette-blue-600);
+  --color-accent-strong: var(--palette-blue-700);
+  --color-accent-soft: var(--palette-blue-50);
+  --color-accent-border: var(--palette-blue-200);
+  --color-accent-text: var(--palette-blue-600);
+  --color-on-accent: #ffffff;
+
+  --color-link: var(--palette-blue-600);
+  --color-link-hover: var(--palette-blue-700);
+  --color-focus: var(--palette-blue-600);
+  --color-focus-inverse: #ffffff;
+
+  /* ---- measurement semantics ------------------------------------------- */
+
+  /* The product's own vocabulary. A reading is supported up to the governing
+     value and contradicted beyond it; a method can decline; a figure can sit
+     at the ceiling, which means nothing was found. */
+  --color-measured: var(--palette-blue-600);
+  --color-measured-soft: var(--palette-blue-50);
+  --color-measured-border: var(--palette-blue-200);
+  --color-contradicted: var(--palette-slate-300);
+  --color-governing: var(--palette-slate-950);
+  --color-structure: var(--palette-oxide-500);
+  --color-structure-soft: var(--palette-oxide-50);
+  --color-structure-border: var(--palette-oxide-200);
+  --color-structure-text: var(--palette-oxide-600);
+  --color-headroom: var(--palette-verdigris-500);
+  --color-headroom-soft: var(--palette-verdigris-50);
+  --color-headroom-text: var(--palette-verdigris-600);
+  --color-unstable: var(--palette-brass-500);
+  --color-unstable-soft: var(--palette-brass-50);
+  --color-unstable-border: var(--palette-brass-200);
+  --color-unstable-text: var(--palette-brass-600);
+  --color-declined: var(--palette-slate-500);
+
+  /* ---- status ---------------------------------------------------------- */
+
+  --color-danger: var(--palette-oxide-500);
+  --color-danger-strong: var(--palette-oxide-600);
+  --color-danger-soft: var(--palette-oxide-50);
+  --color-danger-text: var(--palette-oxide-600);
+  --color-on-danger: #ffffff;
+  --color-info-soft: var(--palette-blue-50);
+  --color-info-text: var(--palette-blue-600);
+
+  /* ---- graphics -------------------------------------------------------- */
+
+  /* The hatch marks territory a method claimed and another contradicted. It
+     is a pattern rather than a tint so it can never be mistaken for a fill. */
+  --pattern-contradicted: repeating-linear-gradient(
+    -45deg,
+    var(--color-border-strong) 0 1px,
+    transparent 1px 7px
+  );
+  /* Faint engraved grid, for the plate behind a reading. */
+  --pattern-grid:
+    linear-gradient(var(--palette-slate-200) 1px, transparent 1px),
+    linear-gradient(90deg, var(--palette-slate-200) 1px, transparent 1px);
+
+  --gradient-plate:
+    radial-gradient(120% 90% at 12% 0%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 58%),
+    linear-gradient(162deg, var(--palette-slate-50) 0%, var(--palette-slate-100) 100%);
+  --gradient-deep:
+    radial-gradient(90% 70% at 88% 4%, rgba(49, 89, 171, 0.38) 0%, rgba(49, 89, 171, 0) 58%),
+    radial-gradient(70% 60% at 6% 96%, rgba(27, 58, 143, 0.22) 0%, rgba(27, 58, 143, 0) 60%),
+    linear-gradient(158deg, #1e2530 0%, var(--palette-slate-900) 46%, #12171d 100%);
+  --gradient-fade-down: linear-gradient(180deg, transparent 0%, var(--color-canvas) 100%);
+
+  /* ---- type ------------------------------------------------------------ */
+
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* The first value in each clamp is the size at 360px. */
+  --text-display-size: clamp(2.25rem, 1.35rem + 4vw, 4rem);
+  --text-display-leading: 1.03;
+  --text-display-tracking: -0.038em;
+  --text-display-weight: 600;
+
+  --text-h1-size: clamp(1.75rem, 1.35rem + 1.78vw, 2.5rem);
+  --text-h1-leading: 1.12;
+  --text-h1-tracking: -0.03em;
+  --text-h1-weight: 600;
+
+  --text-h2-size: clamp(1.25rem, 1.11rem + 0.62vw, 1.5rem);
+  --text-h2-leading: 1.22;
+  --text-h2-tracking: -0.02em;
+  --text-h2-weight: 600;
+
+  --text-h3-size: 1.0625rem;
+  --text-h3-leading: 1.35;
+  --text-h3-tracking: -0.012em;
+  --text-h3-weight: 600;
+
+  /* Figures carry the readings. Tabular, tight, and large enough that the
+     decimals are legible from across a room during a demo. */
+  --text-figure-xl-size: clamp(2.75rem, 1.6rem + 5.1vw, 5rem);
+  --text-figure-xl-leading: 0.95;
+  --text-figure-xl-tracking: -0.05em;
+  --text-figure-l-size: clamp(1.875rem, 1.5rem + 1.67vw, 2.5rem);
+  --text-figure-l-leading: 1.05;
+  --text-figure-l-tracking: -0.035em;
+  --text-figure-m-size: 1.375rem;
+  --text-figure-m-leading: 1.15;
+  --text-figure-m-tracking: -0.025em;
+
+  --text-lede-size: clamp(1.0625rem, 1rem + 0.28vw, 1.1875rem);
+  --text-lede-leading: 1.6;
+  --text-body-size: 0.9375rem;
+  --text-body-leading: 1.62;
+  --text-body-s-size: 0.875rem;
+  --text-body-s-leading: 1.55;
+  --text-label-size: 0.8125rem;
+  --text-label-leading: 1.3;
+  --text-micro-size: 0.75rem;
+  --text-micro-leading: 1.3;
+  --text-micro-tracking: 0.01em;
+  --text-mono-size: 0.8125rem;
+  --text-mono-leading: 1.5;
+  --text-mono-s-size: 0.6875rem;
+  --text-mono-s-leading: 1.4;
+  --text-mono-s-tracking: 0.02em;
+  /* 16px stops iOS Safari zooming into a focused field. */
+  --text-input-size: 1rem;
+
+  /* ---- spacing --------------------------------------------------------- */
+
+  --space-px: 1px;
+  --space-0-5: 0.125rem;
+  --space-1: 0.25rem;
+  --space-1-5: 0.375rem;
+  --space-2: 0.5rem;
+  --space-2-5: 0.625rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-7: 1.75rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-14: 3.5rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* ---- layout ---------------------------------------------------------- */
+
+  --layout-gutter: 1.25rem;
+  --layout-section: 3.5rem;
+  --layout-card-padding: 1.25rem;
+  --layout-content: 71rem;
+  --layout-reading: 42rem;
+  --layout-topbar: 3.5rem;
+
+  --size-control: 2.75rem;
+  --size-control-sm: 2.25rem;
+  --size-icon: 1.125rem;
+  --size-key: 3.25rem;
+
+  /* ---- radii, by role -------------------------------------------------- */
+
+  --radius-xs: 4px;
+  --radius-control: 8px;
+  --radius-chip: 6px;
+  --radius-panel: 12px;
+  --radius-card: 16px;
+  --radius-plate: 20px;
+  --radius-pill: 999px;
+
+  /* ---- elevation ------------------------------------------------------- */
+
+  /* Bounded objects only. A row inside a list never carries a shadow; it gets
+     a hairline, because a list of shadows reads as a pile of cards. */
+  --shadow-hairline: 0 0 0 1px rgba(20, 24, 29, 0.06);
+  --shadow-card:
+    0 0 0 1px rgba(20, 24, 29, 0.05), 0 1px 2px rgba(20, 24, 29, 0.04),
+    0 8px 24px -12px rgba(20, 24, 29, 0.1);
+  --shadow-raised:
+    0 0 0 1px rgba(20, 24, 29, 0.06), 0 2px 4px rgba(20, 24, 29, 0.05),
+    0 16px 32px -16px rgba(20, 24, 29, 0.16);
+  --shadow-overlay: 0 0 0 1px rgba(20, 24, 29, 0.08), 0 24px 48px -16px rgba(20, 24, 29, 0.24);
+  --shadow-key: inset 0 -2px 0 rgba(20, 24, 29, 0.1), 0 1px 2px rgba(20, 24, 29, 0.08);
+  --shadow-key-pressed: inset 0 2px 4px rgba(20, 24, 29, 0.22);
+
+  --border-width: 1px;
+  --border-width-strong: 2px;
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --opacity-disabled: 0.45;
+
+  /* ---- motion ---------------------------------------------------------- */
+
+  --duration-instant: 90ms;
+  --duration-fast: 150ms;
+  --duration-standard: 240ms;
+  --duration-narrative: 460ms;
+  --duration-reading: 900ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-instrument: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Entrances translate by this. Reduced motion sets it to zero, so every
+     movement in the product becomes a fade without touching a component. */
+  --motion-distance: 10px;
+  --motion-sweep: 1;
+
+  /* ---- layers ---------------------------------------------------------- */
+
+  --z-sticky: 30;
+  --z-header: 50;
+  --z-overlay: 60;
+  --z-toast: 70;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --layout-gutter: 2rem;
+    --layout-section: 5.5rem;
+    --layout-card-padding: 1.75rem;
+    --layout-topbar: 4rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --layout-gutter: 2.5rem;
+  }
+}
+
+/*
+  Dark theme. A near-black plate with surfaces one step up and hairlines doing
+  the work shadows do in light, because a shadow on black is invisible. The
+  blue has to move up the scale to stay legible, and the hatch lightens with
+  the borders it is built from.
+*/
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-canvas: var(--palette-slate-990);
+  --color-surface: #171c22;
+  --color-surface-muted: #12161b;
+  --color-surface-strong: #232a32;
+  --color-shell: #0b0e11;
+  --color-chrome: rgba(15, 18, 22, 0.88);
+  --color-scrim: rgba(5, 7, 9, 0.7);
+  --color-skeleton: #232a32;
+  --color-selection: var(--palette-blue-800);
+
+  --color-border: #262e37;
+  --color-border-strong: #333c47;
+  --color-border-control: #78818e;
+
+  --color-ink: #e7ebf0;
+  --color-ink-secondary: #a8b1bd;
+  --color-ink-muted: #7f8794;
+  --color-ink-inverse: #0f1216;
+
+  --color-brand: #e7ebf0;
+  --color-brand-strong: #ffffff;
+  --color-on-brand: #0f1216;
+
+  --color-accent: var(--palette-blue-400);
+  --color-accent-strong: var(--palette-blue-300);
+  --color-accent-soft: #141c2e;
+  --color-accent-border: #223154;
+  --color-accent-text: var(--palette-blue-300);
+
+  --color-link: var(--palette-blue-300);
+  --color-link-hover: var(--palette-blue-200);
+  --color-focus: var(--palette-blue-300);
+  --color-focus-inverse: #0f1216;
+
+  --color-measured: var(--palette-blue-400);
+  --color-measured-soft: #141c2e;
+  --color-measured-border: #223154;
+  --color-contradicted: #333c47;
+  --color-governing: #e7ebf0;
+  --color-structure: var(--palette-oxide-400);
+  --color-structure-soft: #2b1711;
+  --color-structure-border: #52241a;
+  --color-structure-text: var(--palette-oxide-300);
+  --color-headroom: var(--palette-verdigris-300);
+  --color-headroom-soft: #12231b;
+  --color-headroom-text: var(--palette-verdigris-300);
+  --color-unstable: #c79a36;
+  --color-unstable-soft: #251d0d;
+  --color-unstable-border: #4a3a14;
+  --color-unstable-text: #dcb75e;
+  --color-declined: #6b7481;
+
+  --color-danger: var(--palette-oxide-400);
+  --color-danger-strong: var(--palette-oxide-300);
+  --color-danger-soft: #2b1711;
+  --color-danger-text: var(--palette-oxide-300);
+  --color-info-soft: #141c2e;
+  --color-info-text: var(--palette-blue-300);
+
+  --pattern-grid:
+    linear-gradient(#232a32 1px, transparent 1px),
+    linear-gradient(90deg, #232a32 1px, transparent 1px);
+  --gradient-plate:
+    radial-gradient(120% 90% at 12% 0%, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 58%),
+    linear-gradient(162deg, #171c22 0%, #12161b 100%);
+  --gradient-deep:
+    radial-gradient(100% 80% at 85% 6%, rgba(92, 127, 198, 0.22) 0%, rgba(92, 127, 198, 0) 62%),
+    linear-gradient(158deg, #12161b 0%, #0b0e11 100%);
+  --gradient-fade-down: linear-gradient(180deg, transparent 0%, var(--color-canvas) 100%);
+
+  --shadow-hairline: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-card: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 8px 24px -12px rgba(0, 0, 0, 0.7);
+  --shadow-raised: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 16px 32px -16px rgba(0, 0, 0, 0.8);
+  --shadow-overlay: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 24px 48px -16px rgba(0, 0, 0, 0.85);
+  --shadow-key: inset 0 -2px 0 rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-key-pressed: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Movement becomes a fade, and the scale stops sweeping. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-distance: 0px;
+    --motion-sweep: 0;
+  }
+}
