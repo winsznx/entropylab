@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://entropylab.timjosh507.workers.dev/sitemap.xml

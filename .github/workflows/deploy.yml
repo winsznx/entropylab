@@ -38,13 +38,16 @@ jobs:
 
       - name: Verify the build carries no off-origin reference
         run: |
-          # Deployment must not reintroduce a CDN dependency. Namespace URIs
-          # and the documentation links on the "how it was tested" screen are
-          # the only external strings allowed.
+          # Deployment must not reintroduce a CDN dependency. What is allowed:
+          # XML namespace URIs, the site's own absolute URLs in canonical and
+          # Open Graph metadata, the repository links on the methods screen,
+          # and React's error-decoder URL. Anything else is a resource the
+          # page might fetch from a third party.
           if grep -rhoE "https?://[a-zA-Z0-9./_-]+" apps/web/dist/assets apps/web/dist/index.html \
             | sort -u \
             | grep -vE "^https?://(www\.)?w3\.org/" \
-            | grep -vE "^https://github\.com/winsznx/entropylab/" \
+            | grep -vE "^https://entropylab\.timjosh507\.workers\.dev/" \
+            | grep -vE "^https://github\.com/winsznx/entropylab" \
             | grep -vE "^https://reactjs\.org/docs/error-decoder\.html$" \
             | grep .; then
             echo "Unexpected external reference in the build"

@@ -20,7 +20,8 @@
     "build:web": "pnpm --filter @entropylab/web build",
     "test:e2e": "playwright test",
     "benchmark": "tsx scripts/run-benchmarks.ts",
-    "publish:web": "pnpm build:web && pnpm --filter @entropylab/web publish:cf"
+    "publish:web": "pnpm build:web && pnpm --filter @entropylab/web publish:cf",
+    "og": "tsx scripts/make-og-image.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",

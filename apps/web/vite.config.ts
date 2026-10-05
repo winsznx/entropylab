@@ -29,13 +29,21 @@ export default defineConfig({
         background_color: "#e9ecf0",
         display: "standalone",
         start_url: "./",
-        icons: [{ src: "icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" }],
+        icons: [
+          { src: "icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
+          { src: "icon.svg", sizes: "any", type: "image/svg+xml", purpose: "maskable" },
+        ],
+        categories: ["utilities", "security"],
       },
       workbox: {
         // Precache the built application only. There are no runtime caching
         // rules because there are no runtime requests: analysis is computed in
         // the page and nothing is fetched after load.
         globPatterns: ["**/*.{js,css,html,svg,woff2}"],
+        // The social card is for crawlers, never for a reader of the app.
+        // Precaching it would add most of a megabyte to the offline bundle
+        // that no user will ever see.
+        globIgnores: ["og.png"],
         navigateFallback: "index.html",
       },
     }),
