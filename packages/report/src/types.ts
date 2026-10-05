@@ -15,6 +15,14 @@ export interface ProcessProfile {
 export interface DatasetMetadata {
   /** Where the observations came from, e.g. a fixture id or "manual entry". */
   source: string;
+  /**
+   * How the dataset was produced, in the product's own vocabulary: a
+   * synthetic test fixture, a physical calibration sample, and so on.
+   *
+   * Carried in the report because a reader who cannot tell generated data
+   * from measured data cannot judge anything else in the document.
+   */
+  provenance: string;
   sampleCount: number;
   alphabetSize: number;
   /** SHA-256 over the canonical serialisation of the observations. */
@@ -38,6 +46,8 @@ export interface BuildReportOptions {
   sample: EntropySample;
   analysis: EntropyAnalysis;
   datasetSource: string;
+  /** Defaults to "Unspecified" so provenance is never silently absent. */
+  provenance?: string;
   /** ISO timestamp. Left out when the report must be byte-reproducible. */
   generatedAt?: string;
 }

@@ -1620,3 +1620,56 @@ p,
   color: #fff;
   border-color: rgba(255, 255, 255, 0.3);
 }
+
+/* ---- provenance ------------------------------------------------------- */
+
+/* Where a dataset came from, stated above every result. Synthetic data is
+   hatched so it cannot be skimmed as a measurement; measured data is not. */
+.provenance {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-panel);
+  font-size: var(--text-body-s-size);
+  color: var(--color-ink-secondary);
+}
+
+.provenance__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-s-size);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: var(--weight-semibold);
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
+.provenance__detail {
+  flex: 1 1 24ch;
+  min-width: 0;
+}
+
+.provenance--synthetic {
+  border-style: dashed;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-surface-muted) 0 6px,
+    transparent 6px 12px
+  );
+}
+
+.provenance--synthetic .provenance__label {
+  color: var(--color-unstable-text);
+}
+
+.provenance--physical {
+  border-color: var(--color-measured-border);
+  background: var(--color-measured-soft);
+}
+
+.provenance--physical .provenance__label {
+  color: var(--color-measured);
+}

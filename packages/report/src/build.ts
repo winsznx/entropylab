@@ -53,7 +53,7 @@ export function hashSample(sample: EntropySample): string {
  * from the same inputs, which is the property the proof campaign depends on.
  */
 export function buildReport(options: BuildReportOptions): EntropyReport {
-  const { profile, sample, analysis, datasetSource, generatedAt } = options;
+  const { profile, sample, analysis, datasetSource, generatedAt, provenance } = options;
 
   return {
     reportFormatVersion: REPORT_FORMAT_VERSION,
@@ -62,6 +62,7 @@ export function buildReport(options: BuildReportOptions): EntropyReport {
     process: profile,
     dataset: {
       source: datasetSource,
+      provenance: provenance ?? "Unspecified",
       sampleCount: sample.observations.length,
       alphabetSize: sample.alphabetSize,
       inputHash: hashSample(sample),

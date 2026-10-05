@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
-import { analyze } from "@entropylab/core";
 import { buildReport, renderMarkdown } from "@entropylab/report";
+import { analyzeSession, PROVENANCE_LABEL } from "../state/session.js";
+import { Provenance } from "../components/Provenance.js";
 import { useStore } from "../state/store.js";
 import type { Route } from "../routing.js";
 
@@ -10,10 +11,17 @@ export function Export({ navigate }: { navigate: (route: Route) => void }): JSX.
   const [includeObservations, setIncludeObservations] = useState(false);
   const [saved, setSaved] = useState(false);
 
+  // The same analysis the Analysis screen rendered, from one shared
+  // function. Re-analysing here is what allowed the report to carry
+  // different target guidance from the screen.
+  const session = useMemo(
+    () => analyzeSession(profile, store.observations, store.datasetSource),
+    [profile, store.observations, store.datasetSource],
+  );
+
   const report = useMemo(() => {
-    if (!profile || store.observations.length === 0) return null;
-    const sample = { alphabetSize: profile.alphabetSize, observations: store.observations };
-    const analysis = analyze(sample);
+    if (!profile || !session) return null;
+    const { sample, analysis, provenance } = session;
     const base = buildReport({
       profile: {
         name: profile.name,
@@ -23,6 +31,7 @@ export function Export({ navigate }: { navigate: (route: Route) => void }): JSX.
         collectionMethod: profile.collectionMethod,
         notes: profile.notes,
       },
+      provenance: PROVENANCE_LABEL[provenance],
       sample,
       analysis,
       datasetSource: store.datasetSource,
@@ -34,9 +43,9 @@ export function Export({ navigate }: { navigate: (route: Route) => void }): JSX.
     return includeObservations
       ? { ...base, observations: store.observations.map((s) => profile.labels[s] ?? s + 1) }
       : base;
-  }, [profile, store.observations, store.datasetSource, includeObservations]);
+  }, [profile, session, store.datasetSource, store.observations, includeObservations]);
 
-  if (!profile || !report) {
+  if (!profile || !report || !session) {
     return (
       <div className="notice notice--info">
         There is no analysis to export yet.{" "}
@@ -69,6 +78,8 @@ export function Export({ navigate }: { navigate: (route: Route) => void }): JSX.
         <h1>Export</h1>
         <span className="panel__note">files are built in this page</span>
       </div>
+
+      <Provenance provenance={session.provenance} />
       <p style={{ marginBottom: 28 }}>
         The report carries the profile, the dataset hash, the algorithm version, every estimator
         result, the limiting one, the target guidance, and the assumptions and limitations behind

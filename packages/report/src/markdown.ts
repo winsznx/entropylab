@@ -43,6 +43,7 @@ export function renderMarkdown(report: EntropyReport): string {
   lines.push("");
   lines.push(`| Field | Value |`);
   lines.push(`| --- | --- |`);
+  lines.push(`| Provenance | **${dataset.provenance}** |`);
   lines.push(`| Source | ${dataset.source} |`);
   lines.push(`| Observations | ${dataset.sampleCount} |`);
   lines.push(`| Alphabet size | ${dataset.alphabetSize} |`);

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { analyze, explain } from "@entropylab/core";
+import { analyzeSession } from "../state/session.js";
+import { Provenance } from "../components/Provenance.js";
 import { Scale } from "../components/Scale.js";
 import { Histogram } from "../components/Histogram.js";
 import { EstimatorTable } from "../components/EstimatorTable.js";
@@ -14,14 +15,12 @@ export function Analysis({ navigate }: { navigate: (route: Route) => void }): JS
   const profile = store.profile;
   const observations = store.observations;
 
-  const result = useMemo(() => {
-    if (!profile || observations.length === 0) return null;
-    const sample = { alphabetSize: profile.alphabetSize, observations };
-    // The same entry point an integrator calls. There is no separate analysis
-    // path for the interface.
-    const analysis = analyze(sample, { targetBits: targetsFor(profile.targetBits) });
-    return { sample, analysis, explanation: explain(analysis) };
-  }, [profile, observations]);
+  // One analysis for the session, shared with the report. See
+  // state/session.ts for why this is not computed per screen.
+  const result = useMemo(
+    () => analyzeSession(profile, observations, store.datasetSource),
+    [profile, observations, store.datasetSource],
+  );
 
   if (!profile || !result) {
     return (
@@ -42,8 +41,7 @@ export function Analysis({ navigate }: { navigate: (route: Route) => void }): JS
     );
   }
 
-  const { analysis, explanation, sample } = result;
-  const isDemo = store.datasetSource.startsWith("demo fixture");
+  const { analysis, explanation, sample, provenance } = result;
 
   return (
     <div className="stack stack--loose">
@@ -54,12 +52,7 @@ export function Analysis({ navigate }: { navigate: (route: Route) => void }): JS
         </span>
       </header>
 
-      {isDemo ? (
-        <div className="notice">
-          <strong>Synthetic adversarial fixture.</strong> Generated with a known defect to test the
-          methods. These observations never touched a die.
-        </div>
-      ) : null}
+      <Provenance provenance={provenance} />
 
       <section className="plate rise">
         <Scale analysis={analysis} />
@@ -124,9 +117,4 @@ export function Analysis({ navigate }: { navigate: (route: Route) => void }): JS
       </div>
     </div>
   );
-}
-
-/** Always shows the standard targets alongside a custom one, for context. */
-function targetsFor(target: number): number[] {
-  return [...new Set([128, 256, target])].sort((a, b) => a - b);
 }

@@ -19,6 +19,7 @@
     "apps/web/src/**/*.tsx",
     "*.ts",
     "examples/*/src/**/*.ts",
-    "examples/*/test/**/*.ts"
+    "examples/*/test/**/*.ts",
+    "apps/*/test/**/*.ts"
   ]
 }
