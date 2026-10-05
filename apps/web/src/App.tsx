@@ -37,7 +37,13 @@ function Shell(): JSX.Element {
             type="button"
             className="navlink"
             aria-current={inFlow ? "page" : undefined}
-            onClick={() => navigate("define")}
+            onClick={() => {
+              // Starting a new calibration has to clear the working session.
+              // Without this the next profile inherited the previous one's
+              // identity, and saving it overwrote the earlier record.
+              store.reset();
+              navigate("define");
+            }}
           >
             New calibration
           </button>

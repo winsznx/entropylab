@@ -139,23 +139,24 @@ export function StoreProvider({ children }: { children: ReactNode }): JSX.Elemen
     await refresh();
   }, [state.privateSession, state.profile, state.observations, state.datasetSource, refresh]);
 
-  const loadProfile = useCallback(
-    async (id: string) => {
-      const profile = state.savedProfiles.find((p) => p.id === id);
-      if (!profile) return;
-      dispatch({ type: "set-profile", profile });
-      const sessions = await storage.listSessions(id);
-      const latest = sessions[0];
-      if (latest) {
-        dispatch({
-          type: "set-observations",
-          observations: latest.observations,
-          source: latest.source,
-        });
-      }
-    },
-    [state.savedProfiles],
-  );
+  const loadProfile = useCallback(async (id: string) => {
+    // Read storage rather than the in-memory list. The list is refreshed
+    // asynchronously, so opening a profile immediately after saving it
+    // could find nothing and silently do nothing.
+    const stored = await storage.listProfiles();
+    const profile = stored.find((p) => p.id === id);
+    if (!profile) return;
+    dispatch({ type: "set-profile", profile });
+    const sessions = await storage.listSessions(id);
+    const latest = sessions[0];
+    if (latest) {
+      dispatch({
+        type: "set-observations",
+        observations: latest.observations,
+        source: latest.source,
+      });
+    }
+  }, []);
 
   const deleteProfile = useCallback(
     async (id: string) => {

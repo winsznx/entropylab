@@ -190,12 +190,38 @@ p,
   }
 }
 
+/*
+  min-width: 0 on every flex and grid child that can contain something wide.
+
+  A flex or grid item defaults to min-width: auto, which means it refuses to
+  shrink below the intrinsic width of its content. One wide table deep inside
+  the tree therefore pushed the whole page past the viewport, and the symptom
+  appeared on every ancestor at once rather than on the table, which is what
+  made it look like a page-level problem. The scroll containers cannot do
+  their job until their ancestors are allowed to be narrower than their
+  contents.
+*/
 .page {
   flex: 1;
+  min-width: 0;
   width: 100%;
   max-width: var(--layout-content);
   margin: 0 auto;
   padding: var(--space-10) var(--layout-gutter) var(--space-24);
+}
+
+.editorial > *,
+.split > *,
+.result > *,
+.stack > *,
+.strip > *,
+.methods > *,
+.facts > * {
+  min-width: 0;
+}
+
+.scroller {
+  min-width: 0;
 }
 
 .page--wide {

@@ -29,6 +29,10 @@ export function Define({ navigate }: { navigate: (route: Route) => void }): JSX.
   );
 
   const update = (patch: Partial<ProfileDraft>): void => setDraft((d) => ({ ...d, ...patch }));
+  // True when this screen reopened an existing working session rather than
+  // starting one. The distinction decides whether saving updates a record or
+  // creates another.
+  const continuing = store.profile !== null && store.observations.length > 0;
   const protocol = protocolFor(draft.sourceType);
 
   const choosePreset = (preset: (typeof PRESETS)[number]): void => {
@@ -63,6 +67,24 @@ export function Define({ navigate }: { navigate: (route: Route) => void }): JSX.
           to, and it travels with the report so a reader later knows which die produced it.
         </p>
       </header>
+
+      {continuing ? (
+        <div className="notice">
+          Editing the working session, {store.observations.length} observation
+          {store.observations.length === 1 ? "" : "s"} recorded. Saving updates this calibration
+          rather than creating a second one.{" "}
+          <button
+            type="button"
+            className="btn btn--ghost btn--sm"
+            onClick={() => {
+              store.reset();
+              setDraft(makeProfile());
+            }}
+          >
+            Start a separate calibration
+          </button>
+        </div>
+      ) : null}
 
       <section className="editorial">
         <div className="stack">

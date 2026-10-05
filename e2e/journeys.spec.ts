@@ -262,3 +262,81 @@ test.describe("method authority is visible", () => {
     await expect(page.getByText(/not a NIST validation and confers no/)).toBeVisible();
   });
 });
+
+test.describe("saved calibrations", () => {
+  async function recordAndSave(page: Page, name: string): Promise<void> {
+    await page.goto("/");
+    await page.getByRole("button", { name: "New calibration" }).click();
+    await page.getByLabel("What are you calibrating").fill(name);
+    await page.getByRole("button", { name: "Continue to calibration" }).click();
+    await page.getByLabel("Paste recorded outcomes").fill("1 2 3 4 5 6 2 4 1 6 3 5");
+    await page.getByRole("button", { name: "Read pasted text" }).click();
+    await page.getByRole("button", { name: /^Analyze \d+ observations$/ }).click();
+    await page.getByRole("button", { name: "Export report" }).click();
+    await page.getByRole("button", { name: "Save profile and session" }).click();
+    await expect(page.getByText("Saved.")).toBeVisible();
+  }
+
+  test("a second calibration does not overwrite the first", async ({ page }) => {
+    // Found by audit: Define reused the working session's profile, so the
+    // second save replaced the first record instead of adding one.
+    await recordAndSave(page, "Alpha die");
+    await recordAndSave(page, "Beta die");
+
+    await page.goto("/#/profiles");
+    await expect(page.locator(".dataset__name")).toHaveText(["Beta die", "Alpha die"]);
+  });
+
+  test("opening a saved calibration restores its observations", async ({ page }) => {
+    await recordAndSave(page, "Restore me");
+    await page.goto("/#/profiles");
+    await page
+      .locator(".dataset", { hasText: "Restore me" })
+      .getByRole("button", { name: "Open" })
+      .click();
+
+    await page.goto("/#/capture");
+    await expect(page.locator(".progress__value")).toHaveText("12");
+  });
+
+  test("deleting everything leaves the database empty", async ({ page }) => {
+    await recordAndSave(page, "Temporary");
+    await page.goto("/#/profiles");
+    await page.getByRole("button", { name: "Delete all saved data" }).click();
+    await page.getByRole("button", { name: "Yes, delete everything" }).click();
+
+    await expect(page.locator(".dataset__name")).toHaveCount(0);
+    const left = await page.evaluate(async () => {
+      const request = indexedDB.open("entropylab", 1);
+      const db = await new Promise<IDBDatabase>((resolve) => {
+        request.onsuccess = () => resolve(request.result);
+      });
+      const read = (store: string): Promise<unknown[]> =>
+        new Promise((resolve) => {
+          const q = db.transaction(store, "readonly").objectStore(store).getAll();
+          q.onsuccess = () => resolve(q.result as unknown[]);
+        });
+      return {
+        profiles: (await read("profiles")).length,
+        sessions: (await read("sessions")).length,
+      };
+    });
+    expect(left).toEqual({ profiles: 0, sessions: 0 });
+  });
+
+  test("says whether you are editing a session or starting one", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "New calibration" }).click();
+    await expect(page.getByText(/Editing the working session/)).toHaveCount(0);
+
+    await page.getByLabel("What are you calibrating").fill("Working session");
+    await page.getByRole("button", { name: "Continue to calibration" }).click();
+    await page.getByLabel("Paste recorded outcomes").fill("1 2 3");
+    await page.getByRole("button", { name: "Read pasted text" }).click();
+
+    await page.goto("/#/define");
+    await expect(
+      page.getByText(/Editing the working session, 3 observations recorded/),
+    ).toBeVisible();
+  });
+});
