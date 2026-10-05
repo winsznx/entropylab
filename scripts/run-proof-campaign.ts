@@ -9,7 +9,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { analyze, type EstimatorResult } from "@entropylab/core";
+import { analyze, explain, type EstimatorResult } from "@entropylab/core";
 import { allFixtures } from "@entropylab/fixtures";
 import { buildReport, renderMarkdown, type ProcessProfile } from "@entropylab/report";
 
@@ -43,11 +43,17 @@ function main(): void {
       collectionMethod: `synthetic fixture ${fixture.id}`,
       notes: fixture.defect,
     };
+    const explanation = explain(analysis);
     const report = buildReport({
       profile,
       sample: fixture.sample,
       analysis,
       datasetSource: fixture.id,
+      provenance: "Synthetic test fixture",
+      recommendation: {
+        text: explanation.recommendationText,
+        reason: explanation.recommendationReason,
+      },
     });
 
     writeFileSync(

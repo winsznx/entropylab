@@ -10,6 +10,7 @@
   },
   "dataset": {
     "source": "STICKY_MARKOV",
+    "provenance": "Synthetic test fixture",
     "sampleCount": 6000,
     "alphabetSize": 6,
     "inputHash": "e7556dc585547ebf969b0c709d04df8a0e32373a16eeb0bc70bbd7193745ec06"
@@ -262,6 +263,10 @@
       "The estimators disagree by 2.11 bits per symbol. Disagreement is expected when one method detects structure the others cannot see, and the lowest figure governs."
     ]
   },
+  "recommendation": {
+    "text": "Change how you roll before using this process for a seed.",
+    "reason": "The pattern is in the procedure, not in the sample size. Rolling more the same way will confirm it rather than remove it. Shake longer, use a cup, change the surface, then calibrate again."
+  },
   "assumptions": [
     "The observations were produced by the same physical process the report describes.",
     "Observations are recorded in the order they occurred. Every sequential estimator depends on this.",
@@ -276,5 +281,12 @@
     "A figure at the alphabet ceiling means no structure was found, not that the source was shown to be strong.",
     "This is not a NIST SP 800-90B validation and confers no certification. Estimators derived from that document are noted individually, including where this implementation diverges from it.",
     "Entropy quality is one part of seed security. It does not address the wallet, the derivation, the operating system, or physical observation of the ceremony."
+  ],
+  "methodologyBoundaries": [
+    "Most common value: SP 800-90B section 6.3.1, used directly. Defined over any alphabet. Agrees with the NIST reference implementation to ten decimal places.",
+    "Lag predictor: SP 800-90B section 6.3.8, used directly, with the predictor conversion of 6.3.7 to 6.3.10. Agrees with the NIST reference implementation to ten decimal places.",
+    "Collision: SP 800-90B section 6.3.2, adapted. Binary-only in the specification, so a non-binary alphabet is serialised first, and the result is capped at the alphabet ceiling. For a non-power-of-two alphabet the figure measures the source and that encoding together.",
+    "Markov: a generalisation, not the published method. The final specification restricts it to binary; this follows the structure of the 2016 second draft over a k-symbol alphabet and does not reduce to the published method even at two symbols. It is excluded from the reference comparison because the two compute different quantities.",
+    "Sample-size gates are this project's own judgement, not the specification's. SP 800-90B assumes around 1,000,000 samples throughout."
   ]
 }

@@ -116,3 +116,59 @@ describe("markdown rendering", () => {
     expect(markdown).toMatch(/does not generate, inspect, or handle seed material/);
   });
 });
+
+describe("report completeness", () => {
+  const complete = buildReport({
+    profile,
+    sample: fairLike(),
+    analysis: analyze(fairLike()),
+    datasetSource: "FAIR_LIKE",
+    provenance: "Synthetic test fixture",
+    recommendation: { text: "Do the thing.", reason: "Because of the reason." },
+  });
+
+  it("names its provenance rather than leaving it to be inferred", () => {
+    expect(complete.dataset.provenance).toBe("Synthetic test fixture");
+    expect(renderMarkdown(complete)).toMatch(/\| Provenance \| \*\*Synthetic test fixture\*\* \|/);
+  });
+
+  it("carries the recommended next step beside the figure", () => {
+    const markdown = renderMarkdown(complete);
+    expect(markdown).toMatch(/### Recommended next step/);
+    expect(markdown).toMatch(/\*\*Do the thing\.\*\*/);
+    // Before the dataset table, so a reader meets the action with the result.
+    expect(markdown.indexOf("Recommended next step")).toBeLessThan(markdown.indexOf("## Dataset"));
+  });
+
+  it("states how much authority each method carries", () => {
+    const markdown = renderMarkdown(complete);
+    expect(markdown).toMatch(/## Methodology boundaries/);
+    expect(markdown).toMatch(/used directly/);
+    expect(markdown).toMatch(/adapted/);
+    expect(markdown).toMatch(/a generalisation, not the published method/);
+    expect(markdown).toMatch(/Sample-size gates are this project's own judgement/);
+  });
+
+  it("holds every field a reader needs to judge it", () => {
+    const markdown = renderMarkdown(complete);
+    for (const section of [
+      "## Result",
+      "## Dataset",
+      "## Estimators",
+      "## Target guidance",
+      "## Methodology boundaries",
+      "## Assumptions",
+      "## Limitations",
+    ]) {
+      expect(markdown, section).toContain(section);
+    }
+    expect(markdown).toContain(complete.dataset.inputHash);
+    expect(markdown).toContain(complete.algorithmVersion);
+  });
+
+  it("never claims certification, in any section", () => {
+    const markdown = renderMarkdown(complete).toLowerCase();
+    expect(markdown).not.toMatch(/\bcertified\b|\bguaranteed\b|\bproven secure\b|nist compliant/);
+    expect(markdown).toMatch(/not a nist sp 800-90b validation/);
+  });
+});

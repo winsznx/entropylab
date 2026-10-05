@@ -31,6 +31,21 @@ const LIMITATIONS = [
 ];
 
 /**
+ * How much authority each estimator carries.
+ *
+ * Carried in every report because a table of four figures implies four equal
+ * pedigrees, and two of these are not the published algorithm. The wording
+ * matches the Methodology boundaries section of docs/METHODOLOGY.md.
+ */
+const METHODOLOGY_BOUNDARIES = [
+  "Most common value: SP 800-90B section 6.3.1, used directly. Defined over any alphabet. Agrees with the NIST reference implementation to ten decimal places.",
+  "Lag predictor: SP 800-90B section 6.3.8, used directly, with the predictor conversion of 6.3.7 to 6.3.10. Agrees with the NIST reference implementation to ten decimal places.",
+  "Collision: SP 800-90B section 6.3.2, adapted. Binary-only in the specification, so a non-binary alphabet is serialised first, and the result is capped at the alphabet ceiling. For a non-power-of-two alphabet the figure measures the source and that encoding together.",
+  "Markov: a generalisation, not the published method. The final specification restricts it to binary; this follows the structure of the 2016 second draft over a k-symbol alphabet and does not reduce to the published method even at two symbols. It is excluded from the reference comparison because the two compute different quantities.",
+  "Sample-size gates are this project's own judgement, not the specification's. SP 800-90B assumes around 1,000,000 samples throughout.",
+];
+
+/**
  * Canonical serialisation of a dataset, used as the hash input.
  *
  * The alphabet size is included so that identical symbol sequences drawn from
@@ -53,7 +68,8 @@ export function hashSample(sample: EntropySample): string {
  * from the same inputs, which is the property the proof campaign depends on.
  */
 export function buildReport(options: BuildReportOptions): EntropyReport {
-  const { profile, sample, analysis, datasetSource, generatedAt, provenance } = options;
+  const { profile, sample, analysis, datasetSource, generatedAt, provenance, recommendation } =
+    options;
 
   return {
     reportFormatVersion: REPORT_FORMAT_VERSION,
@@ -68,7 +84,9 @@ export function buildReport(options: BuildReportOptions): EntropyReport {
       inputHash: hashSample(sample),
     },
     analysis,
+    ...(recommendation ? { recommendation } : {}),
     assumptions: [...ASSUMPTIONS],
     limitations: [...LIMITATIONS],
+    methodologyBoundaries: [...METHODOLOGY_BOUNDARIES],
   };
 }

@@ -32,6 +32,10 @@ export function Export({ navigate }: { navigate: (route: Route) => void }): JSX.
         notes: profile.notes,
       },
       provenance: PROVENANCE_LABEL[provenance],
+      recommendation: {
+        text: session.explanation.recommendationText,
+        reason: session.explanation.recommendationReason,
+      },
       sample,
       analysis,
       datasetSource: store.datasetSource,

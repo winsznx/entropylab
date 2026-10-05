@@ -12,7 +12,13 @@
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { analyze, parseSample, type EntropyAnalysis, type EntropySample } from "@entropylab/core";
+import {
+  analyze,
+  explain,
+  parseSample,
+  type EntropyAnalysis,
+  type EntropySample,
+} from "@entropylab/core";
 import { buildReport, hashSample, renderMarkdown, type ProcessProfile } from "@entropylab/report";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -145,6 +151,11 @@ function main(): void {
       sample: session.sample,
       analysis: session.analysis,
       datasetSource: session.file,
+      provenance: "Physical calibration sample",
+      recommendation: {
+        text: explain(session.analysis).recommendationText,
+        reason: explain(session.analysis).recommendationReason,
+      },
     });
     writeFileSync(join(outputDir, `${session.id}.json`), `${JSON.stringify(report, null, 2)}\n`);
     writeFileSync(join(outputDir, `${session.id}.md`), renderMarkdown(report));
@@ -158,6 +169,11 @@ function main(): void {
     sample: combinedSample,
     analysis: combinedAnalysis,
     datasetSource: sessions.map((s) => s.file).join(", "),
+    provenance: "Physical calibration sample",
+    recommendation: {
+      text: explain(combinedAnalysis).recommendationText,
+      reason: explain(combinedAnalysis).recommendationReason,
+    },
   });
   writeFileSync(join(outputDir, "combined.json"), `${JSON.stringify(combinedReport, null, 2)}\n`);
   writeFileSync(join(outputDir, "combined.md"), renderMarkdown(combinedReport));

@@ -8,10 +8,17 @@ EntropyLab profiles an entropy-generation process. It does not generate, inspect
 
 Limiting estimator: **Most common value**.
 
+### Recommended next step
+
+**Collect more observations before relying on this result.**
+
+Some methods could not run at this sample size, so the result rests on fewer checks than it looks like. Nothing here says the process is bad; there is not yet enough evidence to say much at all.
+
 ## Dataset
 
 | Field | Value |
 | --- | --- |
+| Provenance | **Synthetic test fixture** |
 | Source | LOW_SAMPLE |
 | Observations | 40 |
 | Alphabet size | 6 |
@@ -47,6 +54,16 @@ Limiting estimator: **Most common value**.
 | 256 bits | 210 |
 
 These counts follow from the calibration sample. They are guidance, not a guarantee about observations that have not been made yet.
+
+## Methodology boundaries
+
+Not every figure above carries the same authority. This report is not a NIST SP 800-90B validation and confers no certification.
+
+- Most common value: SP 800-90B section 6.3.1, used directly. Defined over any alphabet. Agrees with the NIST reference implementation to ten decimal places.
+- Lag predictor: SP 800-90B section 6.3.8, used directly, with the predictor conversion of 6.3.7 to 6.3.10. Agrees with the NIST reference implementation to ten decimal places.
+- Collision: SP 800-90B section 6.3.2, adapted. Binary-only in the specification, so a non-binary alphabet is serialised first, and the result is capped at the alphabet ceiling. For a non-power-of-two alphabet the figure measures the source and that encoding together.
+- Markov: a generalisation, not the published method. The final specification restricts it to binary; this follows the structure of the 2016 second draft over a k-symbol alphabet and does not reduce to the published method even at two symbols. It is excluded from the reference comparison because the two compute different quantities.
+- Sample-size gates are this project's own judgement, not the specification's. SP 800-90B assumes around 1,000,000 samples throughout.
 
 ## Assumptions
 

@@ -39,6 +39,15 @@ export function renderMarkdown(report: EntropyReport): string {
   }
   lines.push("");
 
+  if (report.recommendation) {
+    lines.push(`### Recommended next step`);
+    lines.push("");
+    lines.push(`**${report.recommendation.text}**`);
+    lines.push("");
+    lines.push(report.recommendation.reason);
+    lines.push("");
+  }
+
   lines.push("## Dataset");
   lines.push("");
   lines.push(`| Field | Value |`);
@@ -96,6 +105,16 @@ export function renderMarkdown(report: EntropyReport): string {
         "guarantee about observations that have not been made yet.",
     );
   }
+  lines.push("");
+
+  lines.push("## Methodology boundaries");
+  lines.push("");
+  lines.push(
+    "Not every figure above carries the same authority. This report is not a NIST " +
+      "SP 800-90B validation and confers no certification.",
+  );
+  lines.push("");
+  for (const boundary of report.methodologyBoundaries) lines.push(`- ${boundary}`);
   lines.push("");
 
   lines.push("## Assumptions");

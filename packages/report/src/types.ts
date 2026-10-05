@@ -37,8 +37,12 @@ export interface EntropyReport {
   process: ProcessProfile;
   dataset: DatasetMetadata;
   analysis: EntropyAnalysis;
+  /** The single recommended next step, in the interface's own words. */
+  recommendation?: { text: string; reason: string };
   assumptions: string[];
   limitations: string[];
+  /** How much authority each estimator's methodology carries. */
+  methodologyBoundaries: string[];
 }
 
 export interface BuildReportOptions {
@@ -48,6 +52,7 @@ export interface BuildReportOptions {
   datasetSource: string;
   /** Defaults to "Unspecified" so provenance is never silently absent. */
   provenance?: string;
+  recommendation?: { text: string; reason: string };
   /** ISO timestamp. Left out when the report must be byte-reproducible. */
   generatedAt?: string;
 }
