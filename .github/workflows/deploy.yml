@@ -52,8 +52,22 @@ jobs:
           fi
           echo "No unexpected external references"
 
+      # Publishing from CI needs a Cloudflare API token in repository secrets.
+      # Until one is added the build and its guard still run on every push,
+      # and releases go out with `pnpm publish:web` from a machine where
+      # wrangler is already authenticated.
+      - name: Check for Cloudflare credentials
+        id: cf
+        run: |
+          if [ -n "${{ secrets.CLOUDFLARE_API_TOKEN }}" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "No CLOUDFLARE_API_TOKEN secret; skipping publish."
+          fi
+
       - name: Publish to Cloudflare
-        if: github.ref == 'refs/heads/main'
+        if: steps.cf.outputs.ready == 'true' && github.ref == 'refs/heads/main'
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

@@ -71,7 +71,7 @@ yet.
 | Local persistence and report export          | Implemented                                                                 |
 | Integrator API and example                   | Implemented                                                                 |
 | Privacy audit                                | Implemented                                                                 |
-| Static deployment                            | Live on Cloudflare                                                          |
+| Static deployment                            | Live on Cloudflare, published manually                                      |
 | Physical dice import pipeline                | Implemented, awaiting real rolls                                            |
 | Real physical dice dataset                   | Not collected                                                               |
 | Demo video                                   | Not recorded                                                                |
