@@ -27,6 +27,8 @@ interface State {
   datasetSource: string;
   /** When true, nothing is written to storage for the rest of the visit. */
   privateSession: boolean;
+  /** Which protocol session is being recorded, 1-based. */
+  sessionIndex: number;
   savedProfiles: StoredProfile[];
   savedSessions: StoredSession[];
   storageAvailable: boolean;
@@ -39,6 +41,7 @@ type Action =
   | { type: "undo-observation" }
   | { type: "clear-observations" }
   | { type: "set-private"; value: boolean }
+  | { type: "set-session-index"; value: number }
   | { type: "loaded"; profiles: StoredProfile[]; sessions: StoredSession[]; available: boolean }
   | { type: "reset" };
 
@@ -47,6 +50,7 @@ const initialState: State = {
   observations: [],
   datasetSource: "manual entry",
   privateSession: false,
+  sessionIndex: 1,
   savedProfiles: [],
   savedSessions: [],
   storageAvailable: true,
@@ -70,6 +74,8 @@ function reducer(state: State, action: Action): State {
       return { ...state, observations: [], datasetSource: "manual entry" };
     case "set-private":
       return { ...state, privateSession: action.value };
+    case "set-session-index":
+      return { ...state, sessionIndex: Math.max(1, action.value) };
     case "loaded":
       return {
         ...state,
@@ -91,6 +97,7 @@ interface StoreValue extends State {
   undoObservation: () => void;
   clearObservations: () => void;
   setPrivateSession: (value: boolean) => void;
+  setSessionIndex: (value: number) => void;
   saveCurrent: () => Promise<void>;
   loadProfile: (id: string) => Promise<void>;
   deleteProfile: (id: string) => Promise<void>;
@@ -174,6 +181,7 @@ export function StoreProvider({ children }: { children: ReactNode }): JSX.Elemen
       undoObservation: () => dispatch({ type: "undo-observation" }),
       clearObservations: () => dispatch({ type: "clear-observations" }),
       setPrivateSession: (v) => dispatch({ type: "set-private", value: v }),
+      setSessionIndex: (v) => dispatch({ type: "set-session-index", value: v }),
       saveCurrent,
       loadProfile,
       deleteProfile,

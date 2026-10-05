@@ -997,7 +997,7 @@ p,
   /* Fixed height. The two messages wrap to different line counts, and letting
      the block resize moved every control below it while a click was in
      flight. Height is reserved for the taller state rather than tuned. */
-  min-height: 4.25rem;
+  min-height: 3.5rem;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-control);
   font-size: var(--text-micro-size);
@@ -1671,5 +1671,199 @@ p,
 }
 
 .provenance--physical .provenance__label {
+  color: var(--color-measured);
+}
+
+/* ---- protocol --------------------------------------------------------- */
+
+.protocol {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-panel);
+  background: var(--color-surface-muted);
+}
+
+.protocol__target {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
+.protocol__target-figure {
+  font-family: var(--font-mono);
+  font-size: var(--text-figure-m-size);
+  line-height: 1;
+  letter-spacing: var(--text-figure-m-tracking);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.protocol__target-label {
+  font-size: var(--text-body-s-size);
+  color: var(--color-ink-secondary);
+}
+
+.protocol__rationale {
+  font-size: var(--text-body-s-size);
+  color: var(--color-ink-secondary);
+  margin: 0;
+}
+
+.protocol__rules {
+  display: grid;
+  grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+  gap: var(--space-3) var(--space-5);
+  margin: 0;
+  font-size: var(--text-body-s-size);
+}
+
+.protocol__rules dt {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-s-size);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  padding-top: 0.15rem;
+}
+
+.protocol__rules dd {
+  margin: 0;
+  color: var(--color-ink-secondary);
+}
+
+.protocol__list {
+  margin: 0;
+  padding-left: 1.05rem;
+  display: grid;
+  gap: var(--space-2);
+}
+
+@media (max-width: 640px) {
+  .protocol__rules {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1) 0;
+  }
+  .protocol__rules dd {
+    margin-bottom: var(--space-3);
+  }
+}
+
+/* ---- session progress ------------------------------------------------- */
+
+.progress {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.progress__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.progress__count {
+  font-family: var(--font-mono);
+  font-size: var(--text-figure-l-size);
+  line-height: 1;
+  letter-spacing: var(--text-figure-l-tracking);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress__of {
+  color: var(--color-ink-muted);
+  font-weight: var(--weight-regular);
+}
+
+.progress__session {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-s-size);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+/* Threshold marks sit on the track, so the operator can see which method the
+   next stretch of rolling unlocks. */
+.progress__track {
+  position: relative;
+  height: 10px;
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.progress__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--color-measured);
+  border-radius: var(--radius-pill);
+  transition: width var(--duration-standard) var(--ease-standard);
+}
+
+.progress__mark {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 1px;
+  background: var(--color-ink-muted);
+}
+
+.progress__legend {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  font-size: var(--text-micro-size);
+  color: var(--color-ink-muted);
+}
+
+.adequacy {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-panel);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-muted);
+  font-size: var(--text-body-s-size);
+  color: var(--color-ink-secondary);
+}
+
+.adequacy__level {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono-s-size);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: var(--weight-semibold);
+}
+
+.adequacy--frequency-only,
+.adequacy--none {
+  background: var(--color-unstable-soft);
+  border-color: var(--color-unstable-border);
+}
+
+.adequacy--frequency-only .adequacy__level,
+.adequacy--none .adequacy__level {
+  color: var(--color-unstable-text);
+}
+
+.adequacy--partial .adequacy__level {
+  color: var(--color-ink-secondary);
+}
+
+.adequacy--complete {
+  background: var(--color-measured-soft);
+  border-color: var(--color-measured-border);
+}
+
+.adequacy--complete .adequacy__level {
   color: var(--color-measured);
 }

@@ -98,20 +98,22 @@ test.describe("define, calibrate, analyze, export", () => {
   test("completes the whole flow by keyboard entry", async ({ page }) => {
     await page.goto("/#/define");
 
-    await page.getByLabel("Name").fill("Kitchen table d6");
+    await page.getByLabel("What are you calibrating").fill("Kitchen table d6");
     await page.getByLabel("How you collect").fill("Shaken in a cup");
     await page.getByRole("button", { name: "Continue to calibration" }).click();
 
-    await expect(page.getByRole("heading", { name: "Calibrate", level: 1 })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Record the calibration", level: 1 }),
+    ).toBeVisible();
 
     // Type rolls the way a person reading them off a table would.
     await page.locator("body").click();
     for (const key of "123456123456") await page.keyboard.press(key);
-    await expect(page.locator(".counter")).toHaveText("12");
+    await expect(page.locator(".progress__value")).toHaveText("12");
 
     // Backspace undoes.
     await page.keyboard.press("Backspace");
-    await expect(page.locator(".counter")).toHaveText("11");
+    await expect(page.locator(".progress__value")).toHaveText("11");
 
     await page.getByRole("button", { name: /Analyze 11 observations/ }).click();
     await expect(page.getByRole("heading", { name: "Analysis", level: 1 })).toBeVisible();
@@ -120,7 +122,7 @@ test.describe("define, calibrate, analyze, export", () => {
 
   test("reads a pasted sequence and reports unreadable values", async ({ page }) => {
     await page.goto("/#/define");
-    await page.getByLabel("Name").fill("Pasted session");
+    await page.getByLabel("What are you calibrating").fill("Pasted session");
     await page.getByRole("button", { name: "Continue to calibration" }).click();
 
     await page.getByLabel("Paste recorded outcomes").fill("1 2 3\n# a note\n4 5 x 6\n9");
@@ -133,7 +135,7 @@ test.describe("define, calibrate, analyze, export", () => {
 
   test("refuses a pasted recovery phrase", async ({ page }) => {
     await page.goto("/#/define");
-    await page.getByLabel("Name").fill("Guardrail check");
+    await page.getByLabel("What are you calibrating").fill("Guardrail check");
     await page.getByRole("button", { name: "Continue to calibration" }).click();
 
     await page
@@ -143,7 +145,7 @@ test.describe("define, calibrate, analyze, export", () => {
 
     await expect(page.getByRole("alert")).toContainText(/recovery phrase/);
     // Nothing was ingested.
-    await expect(page.locator(".counter")).toHaveText("0");
+    await expect(page.locator(".progress__value")).toHaveText("0");
     // And the warning does not repeat the phrase back on screen.
     await expect(page.getByRole("alert")).not.toContainText("abandon");
   });
@@ -174,7 +176,7 @@ test.describe("define, calibrate, analyze, export", () => {
 test.describe("local storage", () => {
   test("saves a profile and reopens it", async ({ page }) => {
     await page.goto("/#/define");
-    await page.getByLabel("Name").fill("Persisted die");
+    await page.getByLabel("What are you calibrating").fill("Persisted die");
     await page.getByRole("button", { name: "Continue to calibration" }).click();
     await page.getByLabel("Paste recorded outcomes").fill("1 2 3 4 5 6 1 2 3 4 5 6");
     await page.getByRole("button", { name: "Read pasted text" }).click();
@@ -193,7 +195,7 @@ test.describe("local storage", () => {
     await page.getByLabel(/Do not save anything this visit/).check();
 
     await page.goto("/#/define");
-    await page.getByLabel("Name").fill("Should not persist");
+    await page.getByLabel("What are you calibrating").fill("Should not persist");
     await page.getByRole("button", { name: "Continue to calibration" }).click();
     await page.getByLabel("Paste recorded outcomes").fill("1 2 3 4 5 6");
     await page.getByRole("button", { name: "Read pasted text" }).click();
@@ -290,7 +292,7 @@ test.describe("privacy audit", () => {
     await page.getByLabel(/Do not save anything this visit/).check();
 
     await page.goto("/#/define");
-    await page.getByLabel("Name").fill("Private run");
+    await page.getByLabel("What are you calibrating").fill("Private run");
     await page.getByRole("button", { name: "Continue to calibration" }).click();
     await page.getByLabel("Paste recorded outcomes").fill("1 2 3 4 5 6 1 2 3 4 5 6");
     await page.getByRole("button", { name: "Read pasted text" }).click();
@@ -319,7 +321,7 @@ test.describe("privacy audit", () => {
     // The address bar is copied, bookmarked, and logged by browsers. Routing
     // carries a screen name and nothing else.
     await page.goto("/#/define");
-    await page.getByLabel("Name").fill("URL check");
+    await page.getByLabel("What are you calibrating").fill("URL check");
     await page.getByRole("button", { name: "Continue to calibration" }).click();
 
     await page.locator("body").click();
@@ -380,7 +382,7 @@ test.describe("keyboard capture state", () => {
     // after which typed digits go into that field and the counter never moves.
     // The behaviour is correct; being silent about it was not.
     await page.goto("/#/define");
-    await page.getByLabel("Name").fill("Capture state");
+    await page.getByLabel("What are you calibrating").fill("Capture state");
     await page.getByRole("button", { name: "Continue to calibration" }).click();
 
     await expect(page.getByText(/Key capture is on/)).toBeVisible();
@@ -390,12 +392,12 @@ test.describe("keyboard capture state", () => {
 
     // Typing here must not be recorded, and the interface must say so.
     await page.keyboard.press("3");
-    await expect(page.locator(".counter")).toHaveText("0");
+    await expect(page.locator(".progress__value")).toHaveText("0");
 
     await page.getByRole("button", { name: "Resume key capture" }).click();
     await expect(page.getByText(/Key capture is on/)).toBeVisible();
 
     await page.keyboard.press("3");
-    await expect(page.locator(".counter")).toHaveText("1");
+    await expect(page.locator(".progress__value")).toHaveText("1");
   });
 });
